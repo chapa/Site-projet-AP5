@@ -10,7 +10,7 @@
 		public function __construct()
 		{
 			// Génération de l'objet Request
-			$url = str_replace('/~bourgiem/projet/', '', $_SERVER['REQUEST_URI']);
+			$url = str_replace('/~dimperv/projet/', '', $_SERVER['REQUEST_URI']);
 			$this->request = new Request($url);
 
 			// Chargement du controller
