@@ -7,10 +7,9 @@
 		/**
 		* Constructeur, c'est lui qui appelle tout (il crée la page)
 		**/
-		public function __construct()
+		public function __construct($url)
 		{
 			// Génération de l'objet Request
-			$url = str_replace('/~dimperv/projet/', '', $_SERVER['REQUEST_URI']);
 			$this->request = new Request($url);
 
 			// Chargement du controller
