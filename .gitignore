@@ -1,2 +1,2 @@
 .htaccess
-core/Dispatcher.php
+index.php
