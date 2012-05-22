@@ -135,7 +135,7 @@
 			}
 		}
 
-		public function update($req)
+		public function update($req = array())
 		{
 			$sql = 'UPDATE ' . $this->table . ' ';
 
@@ -183,5 +183,31 @@
 			$sql .= ' WHERE ' . implode(' AND ', $conditions);
 
 			return $this->query($sql);
+		}
+
+		public function delete($conds = array())
+		{
+			if(!empty($conds))
+			{
+				if(is_array($conds))
+				{
+					$conditions = array();
+					foreach($conds as $k => $v){
+						$conditions[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
+				}
+				else
+				{
+					$conditions = array($conds);
+				}
+
+				$sql = 'DELETE FROM ' . $this->table . ' WHERE ' . implode(' AND ', $conditions);
+				
+				$this->query($sql);
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
