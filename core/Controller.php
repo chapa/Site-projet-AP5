@@ -71,7 +71,7 @@
 				if(empty($this->$helper))
 				{
 					$name = ucfirst($helper);
-					$file = ROOT . DS . 'core' . DS . 'controller' . DS . 'helper' . DS . $name . 'Helper.php';
+					$file = ROOT . DS . 'core' . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
 
 					if(!is_file($file))
 					{
