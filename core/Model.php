@@ -7,9 +7,6 @@
 		public $table = false;			// Nom de la table dans laquelle aller chercher les informations
 		public $db;						// Objet PDO de la connexion à la base de données
 		public $primaryKey = 'id';
-		public $foreignKeys = false;
-		public $errors = array();
-		public $errorEmptyField = 'Vous devez remplir ce champ';
 
 		public function __construct()
 		{
@@ -95,6 +92,32 @@
 			if(!empty($req['limit']))
 				$sql .= ' LIMIT ' . $req['limit'];
 
+			return $this->query($sql);
+		}
+
+		public function save($data = array())
+		{
+			if(empty($data[$this->primaryKey]))
+			{
+				$sql = 'INSERT INTO ' . $this->table . ' ';
+
+				$keys = implode(', ', array_keys($data));
+				$values = implode(', ', $data);
+
+				$sql .= '(' . $keys . ') VALUES (' . $values . ')';
+			}
+			else
+			{
+				$sql = 'UPDATE ' . $this->table . ' SET ';
+
+				$modifs = array();
+				foreach($data as $k => $v){
+					if($k != $this->primaryKey)
+						$modifs[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+				}
+				$sql .= implode(', ', $modifs) . ' WHERE ' . $this->primaryKey . ' = \'' . $data[$this->primaryKey] . '\'';
+			}
+			
 			return $this->query($sql);
 		}
 	}
