@@ -6,7 +6,8 @@
 		public $conf = 'default';		// Nom de la base de donnée à laquelle se connecter (à configurer dans /config/conf.php)
 		public $table = false;			// Nom de la table dans laquelle aller chercher les informations
 		public $db;						// Objet PDO de la connexion à la base de données
-		public $primaryKey = 'id';
+		public $primaryKey = 'id';		// Nom du champs de la clé primaire de la table
+		public $errors = array();		// Tableau des éventuelles erreurs présentes lors de la validation d'un formulaire (VALIDATION A FAIRE)
 
 		/**
 		* Constructeur : il va se connecter à la base de données si ça n'est pas déjà fait, et inscrit le nom de la table dans $this->table

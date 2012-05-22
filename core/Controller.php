@@ -3,6 +3,7 @@
 	class Controller
 	{
 		public $request;				// Objet request envoyé par le dispatcher (contenant l'url parsé)
+		public $model;					// Nom du model chargé
 		public $vars = array();			// Contient les variables à extraire pour la vue
 		public $layout = 'default';		// Nom du layout par défaut
 		public $rendered = false;		// Indique si la vue a déjà été rendu
@@ -38,6 +39,7 @@
 
 				require_once($file);
 				$this->$name = new $name;
+				$this->model = $name;
 			}
 		}
 

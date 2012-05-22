@@ -2,6 +2,14 @@
 
 	class HtmlHelper
 	{
+		public $controller;
+
+		public function __construct()
+		{
+			$backtrace = debug_backtrace();
+			$this->controller = $backtrace[1]['object'];
+		}
+
 		public function charset($name)
 		{
 			return '<meta charset="' . $name . '">';
@@ -50,14 +58,21 @@
 			return $out;
 		}
 
-		public function url($url, $full = false)
+		public function url($url = array(), $full = false)
 		{
 			$out = '';
 			if($full)
 				$out .=  'http://' . $_SERVER['HTTP_HOST'];
 
+			$out .= BASE_URL;
+
 			if(is_array($url))
 			{
+				if(empty($url['controller']))
+					$url['controller'] = $this->controller->request->controller;
+				if(empty($url['action']))
+					$url['action'] = $this->controller->request->action;
+
 				$out .= '/' . $url['controller'] . '/' . $url['action'];
 				
 				foreach($url as $k=>$v)
