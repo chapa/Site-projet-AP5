@@ -1,4 +1,7 @@
-
+DROP TABLE IF EXISTS regarde ;
+DROP TABLE IF EXISTS Users ;
+DROP TABLE IF EXISTS Episodes ;
+DROP TABLE IF EXISTS Seasons ;
 DROP TABLE IF EXISTS Series ;
 CREATE TABLE Series
 
@@ -22,7 +25,7 @@ CREATE TABLE Series
 	primary key (id)
 
 );
-DROP TABLE IF EXISTS Seasons ;
+
 CREATE TABLE Seasons
 (
 	id				numeric(5),
@@ -36,7 +39,7 @@ CREATE TABLE Seasons
 	primary key (id),
 	foreign key (idS) references Series(id)
 );
-DROP TABLE IF EXISTS Episodes ;
+
 CREATE TABLE Episodes(
 id			numeric(5),
 num 		numeric(2),
@@ -51,7 +54,7 @@ primary key (id),
 foreign key (idS) references Seasons(id)
 ); 
 
-DROP TABLE IF EXISTS Users ;
+
 CREATE TABLE Users
 (
 id 			numeric(5),
@@ -64,7 +67,7 @@ primary key (id)
 
 
 );
-DROP TABLE IF EXISTS regarde ;
+
 CREATE TABLE regarde(
 idU			numeric(5),
 idE			numeric(5),
