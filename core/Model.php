@@ -8,6 +8,9 @@
 		public $db;						// Objet PDO de la connexion à la base de données
 		public $primaryKey = 'id';
 
+		/**
+		* Constructeur : il va se connecter à la base de données si ça n'est pas déjà fait, et inscrit le nom de la table dans $this->table
+		**/
 		public function __construct()
 		{
 			// Vérification que l'on ne se soit pas déjà connecté à la base de données
@@ -54,6 +57,10 @@
 			}
 		}
 
+		/**
+		* Fonction permettant d'exécuter une requête, elle renvoie soit les données (dans le cas d'un SELECT), soit true (si erreur => exception)
+		* A FAIRE : GÉRER LES EXCEPTIONS
+		**/
 		public function query($sql)
 		{
 			$pre = $this->db->prepare($sql);
@@ -65,6 +72,15 @@
 				return true;
 		}
 
+		/**
+		* Fonction permettant de retrouver des données
+		* @var $req['fields'] : champs à rechercher (SELECT ...), sinon *
+		* @var $req['tables'] : tables dans lesquelles rechercher (FROM ...), sinon $this->table
+		* @var $req['conditions'] : conditions de la recherche (WHERE ...), sinon true
+		* @var $req['order'] : ordre dans lequel les données seront renvoyés (ORDER ...), sinon rien
+		* @var $req['limit'] : limite de la recherche (LIMIT ...), sinon rien
+		* A FAIRE : GÉRER LES TABLEAUX DANS $REQ['ELEM']
+		**/
 		public function find($req = array())
 		{
 			$sql = 'SELECT ';
@@ -97,6 +113,11 @@
 			return $this->query($sql);
 		}
 
+		/**
+		* Fonction permettant d'enregistrer des données (ajout ou modification).
+		* Si la clé primaire est renseignée on fait une modification, sinon une insertion
+		* @var $data['champ'] = 'valeur'
+		**/
 		public function save($data = array())
 		{
 			if(!empty($data) AND is_array($data))
@@ -135,6 +156,13 @@
 			}
 		}
 
+		/**
+		* Fonction supplémentaire permettant la mise à jour de données (si condition différente de id = valeur)
+		* @var $req['fields'] : champs à modifier
+		* @var $req['fields']['champ'] = 'valeur' ou $req['fields'] = 'champ = valeur'
+		* @var $req['conditions'] : condition de la mise à jour
+		* @var $req['conditions']['champ'] = 'valeur' ou $req['conditions'] = 'champ = valeur'
+		**/
 		public function update($req = array())
 		{
 			$sql = 'UPDATE ' . $this->table . ' ';
@@ -177,7 +205,7 @@
 			}
 			else
 			{
-				$conditions = array('1=1');
+				$conditions = array('true');
 			}
 			
 			$sql .= ' WHERE ' . implode(' AND ', $conditions);
@@ -185,6 +213,11 @@
 			return $this->query($sql);
 		}
 
+		/**
+		* Fonction permettant la suppression de données
+		* @var $conds : conditions de la suppression
+		* @var $conds['champ'] = 'valeur' ou $conds = 'champ = valeur'
+		**/
 		public function delete($conds = array())
 		{
 			if(!empty($conds))
