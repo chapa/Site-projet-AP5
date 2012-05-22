@@ -59,8 +59,10 @@
 			$pre = $this->db->prepare($sql);
 			$pre->execute();
 
-			$r = $pre->fetchAll(PDO::FETCH_OBJ);
-			return $r;
+			if(strpos('SELECT', $sql) == 0)
+				return $pre->fetchAll(PDO::FETCH_OBJ);
+			else
+				return true;
 		}
 
 		public function find($req = array())
@@ -97,27 +99,89 @@
 
 		public function save($data = array())
 		{
-			if(empty($data[$this->primaryKey]))
+			if(!empty($data) AND is_array($data))
 			{
-				$sql = 'INSERT INTO ' . $this->table . ' ';
+				if(empty($data[$this->primaryKey]))
+				{
+					$sql = 'INSERT INTO ' . $this->table . ' ';
 
-				$keys = implode(', ', array_keys($data));
-				$values = implode(', ', $data);
+					$keys = $values = array();
+					foreach($data as $k => $v) {
+						$keys[] = $k;
+						$values[] = '\'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
+					$keys = implode(', ', $keys);
+					$values = implode(', ', $values);
 
-				$sql .= '(' . $keys . ') VALUES (' . $values . ')';
+					$sql .= '(' . $keys . ') VALUES (' . $values . ')';
+				}
+				else
+				{
+					$sql = 'UPDATE ' . $this->table . ' SET ';
+
+					$fields = array();
+					foreach($data as $k => $v){
+						if($k != $this->primaryKey)
+							$fields[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
+					$sql .= implode(', ', $fields) . ' WHERE ' . $this->primaryKey . ' = \'' . str_replace('\'', '\'\'', $data[$this->primaryKey]) . '\'';
+				}
+				
+				return $this->query($sql);
 			}
 			else
 			{
-				$sql = 'UPDATE ' . $this->table . ' SET ';
+				return false;
+			}
+		}
 
-				$modifs = array();
-				foreach($data as $k => $v){
-					if($k != $this->primaryKey)
-						$modifs[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+		public function update($req)
+		{
+			$sql = 'UPDATE ' . $this->table . ' ';
+
+			if(!empty($req['fields']))
+			{
+				if(is_array($req['fields']))
+				{
+					$fields = array();
+					foreach($req['fields'] as $k => $v){
+						if($k != $this->primaryKey)
+							$fields[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
 				}
-				$sql .= implode(', ', $modifs) . ' WHERE ' . $this->primaryKey . ' = \'' . $data[$this->primaryKey] . '\'';
+				else
+				{
+					$fields = array($req['fields']);
+				}
+			}
+			else
+			{
+				return false;
+			}
+
+			$sql .= 'SET ' . implode(', ', $fields);
+
+			if(!empty($req['conditions']))
+			{
+				if(is_array($req['conditions']))
+				{
+					$conditions = array();
+					foreach($req['conditions'] as $k => $v){
+						$conditions[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
+				}
+				else
+				{
+					$conditions = array($req['conditions']);
+				}
+			}
+			else
+			{
+				$conditions = array('1=1');
 			}
 			
+			$sql .= ' WHERE ' . implode(' AND ', $conditions);
+
 			return $this->query($sql);
 		}
 	}
