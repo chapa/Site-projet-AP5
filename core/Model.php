@@ -80,30 +80,66 @@
 		* @var $req['conditions'] : conditions de la recherche (WHERE ...), sinon true
 		* @var $req['order'] : ordre dans lequel les données seront renvoyés (ORDER ...), sinon rien
 		* @var $req['limit'] : limite de la recherche (LIMIT ...), sinon rien
-		* A FAIRE : GÉRER LES TABLEAUX DANS $REQ['ELEM']
 		**/
 		public function find($req = array())
 		{
 			$sql = 'SELECT ';
 
 			if(!empty($req['fields']))
-				$sql .= $req['fields'] . ' ';
+			{
+				if(is_array($req['fields']))
+				{
+					$sql .= implode(', ', $req['fields']) . ' ';
+				}
+				else
+				{
+					$sql .= $req['fields'] . ' ';
+				}
+			}
 			else
+			{
 				$sql .= '* ';
+			}
 
 			$sql .= 'FROM ';
 
 			if(!empty($req['tables']))
-				$sql .= $req['tables'] . ' ';
+			{
+				if(is_array($req['tables']))
+				{
+					$sql .= implode(', ', $req['tables']) . ' ';
+				}
+				else
+				{
+					$sql .= $req['tables'];
+				}
+			}
 			else
-				$sql .= $this->table . ' ';
-
-			$sql .= 'WHERE ';
+			{
+				$sql .= $this->table;
+			}
 
 			if(!empty($req['conditions']))
-				$sql .= $req['conditions'];
-			else
-				$sql .= 'true';
+			{
+				$sql .= ' WHERE ';
+
+				if(is_array($req['conditions']))
+				{
+					$conditions = array();
+					foreach ($req['conditions'] as $k => $v)
+					{
+						if($v === true) $v = 'true';
+						if($v === false) $v = 'false';
+						
+						$conditions[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
+					}
+					$sql .= implode(' AND ', $conditions);
+				}
+				else
+				{
+					$sql .= $req['conditions'];
+				}
+			}
 
 			if(!empty($req['order']))
 				$sql .= ' ORDER BY ' . $req['order'];
@@ -170,6 +206,8 @@
 
 			if(!empty($req['fields']))
 			{
+				$sql .= 'SET ';
+
 				if(is_array($req['fields']))
 				{
 					$fields = array();
@@ -177,10 +215,11 @@
 						if($k != $this->primaryKey)
 							$fields[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
 					}
+					$sql .= implode(', ', $fields);
 				}
 				else
 				{
-					$fields = array($req['fields']);
+					$sql .= $req['fields'];
 				}
 			}
 			else
@@ -188,28 +227,27 @@
 				return false;
 			}
 
-			$sql .= 'SET ' . implode(', ', $fields);
-
 			if(!empty($req['conditions']))
 			{
+				$sql .= ' WHERE ';
+
 				if(is_array($req['conditions']))
 				{
 					$conditions = array();
-					foreach($req['conditions'] as $k => $v){
+					foreach($req['conditions'] as $k => $v)
+					{
+						if($v === true) $v = 'true';
+						if($v === false) $v = 'false';
+
 						$conditions[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
 					}
+					$sql .= implode(' AND ', $conditions);
 				}
 				else
 				{
-					$conditions = array($req['conditions']);
+					$sql .= $req['conditions'];
 				}
 			}
-			else
-			{
-				$conditions = array('true');
-			}
-			
-			$sql .= ' WHERE ' . implode(' AND ', $conditions);
 
 			return $this->query($sql);
 		}
@@ -226,7 +264,11 @@
 				if(is_array($conds))
 				{
 					$conditions = array();
-					foreach($conds as $k => $v){
+					foreach($conds as $k => $v)
+					{
+						if($v === true) $v = 'true';
+						if($v === false) $v = 'false';
+
 						$conditions[] = $k . ' = \'' . str_replace('\'', '\'\'', $v) . '\'';
 					}
 				}
