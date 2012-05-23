@@ -12,7 +12,7 @@
 
 		public function charset($name)
 		{
-			return '<meta charset="' . $name . '">';
+			return '<meta http-equiv="Content-Type" content="text/html; charset=' . $name . '">';
 		}
 
 		public function css($name)
@@ -24,7 +24,7 @@
 			else
 				$file = BASE_URL . DS . 'webroot' . DS . 'css' . DS . $name . '.css';
 
-			return '<link rel="stylesheet" href="' . $file . '">';
+			return '<link rel="stylesheet" type="text/css" href="' . $file . '">';
 		}
 
 		public function js($name)
