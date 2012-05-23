@@ -1,10 +1,4 @@
-DROP TABLE IF EXISTS regarde ;
-DROP TABLE IF EXISTS Users ;
-DROP TABLE IF EXISTS Episodes ;
-DROP TABLE IF EXISTS Seasons ;
-DROP TABLE IF EXISTS Series ;
 CREATE TABLE Series
-
 (
 	id 				numeric(3) ,
 	slug			varchar(100),
@@ -23,7 +17,6 @@ CREATE TABLE Series
 	nationality 	varchar(30),
 	numwatched		numeric(6),
 	primary key (id)
-
 );
 
 CREATE TABLE Seasons
@@ -40,39 +33,38 @@ CREATE TABLE Seasons
 	foreign key (idS) references Series(id)
 );
 
-CREATE TABLE Episodes(
-id			numeric(5),
-num 		numeric(2),
-title 		varchar(100),
-originalTitle text,
-synopsis 	text,
-mark 		numeric(1),
-watched		boolean,
-numwatched  numeric(6),
-idS			numeric(5),
-primary key (id),
-foreign key (idS) references Seasons(id)
+CREATE TABLE Episodes
+(
+	id				numeric(5),
+	num 			numeric(2),
+	title 			varchar(100),
+	originalTitle	text,
+	synopsis 		text,
+	mark 			numeric(1),
+	watched			boolean,
+	numwatched  	numeric(6),
+	idS				numeric(5),
+	primary key (id),
+	foreign key (idS) references Seasons(id)
 ); 
 
 
 CREATE TABLE Users
 (
-id 			numeric(5),
-username	varchar(20),
-password	varchar(256),
-mail		varchar(50),
-created		date,
-lastlogin 	date,
-primary key (id)
-
-
+	id 				numeric(5),
+	username		varchar(20),
+	password		varchar(256),
+	mail			varchar(50),
+	created			date,
+	lastlogin 		date,
+	primary key (id)
 );
 
-CREATE TABLE regarde(
-idU			numeric(5),
-idE			numeric(5),
-primary key (idE,idU),
-foreign key (idU) references Users(id),
-foreign key (idE) references Episodes(id)
+CREATE TABLE Watch
+(
+	idU				numeric(5),
+	idE				numeric(5),
+	primary key (idE,idU),
+	foreign key (idU) references Users(id),
+	foreign key (idE) references Episodes(id)
 );
-
