@@ -10,7 +10,7 @@
 			$this->controller = $backtrace[1]['object'];
 		}
 
-		public function charset($name)
+		public function charset($name = 'utf-8')
 		{
 			return '<meta http-equiv="Content-Type" content="text/html; charset=' . $name . '">';
 		}
