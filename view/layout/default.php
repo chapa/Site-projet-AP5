@@ -11,6 +11,8 @@
 	<body>
 
 		<div class="container">
+
+			<?php $this->Session->flashes(); ?>
 			<?php echo $content_for_layout; ?>
 
 			<hr>
