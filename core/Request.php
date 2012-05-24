@@ -11,12 +11,25 @@
 		public $params = array();	// Tableau des paramètres non nommés
 		public $named = array();	// Tableau des paramètres nommés ('param' => 'value')
 		public $specialParams = array('page'); // Liste des paramètres nommés à placer directement en tant qu'attribut de la classe ($this->param)
+		public $data = array();		// Tableau des paramètres passés par get (puisqu'on ne peut faire que ça...)
 
 		/**
 		* Constructeur, appelé pour ranger les infos de l'url dans les attributs de la classe
 		**/
 		public function __construct($url = NULL)
 		{
+			$url = explode('?', $url);
+			$get = isset($url[1]) ? $url[1] : false;
+			$url = $url[0];
+			if(!empty($get))
+			{
+				$params = explode('&', $get);
+				foreach($params as $v) {
+					$p = explode('=', $v);
+					$this->data[$p[0]] = $p[1];
+				}
+			}
+			
 			$this->url = !empty($url) ? trim($url, '/') : '/';
 			if(empty($this->url))
 				$this->url = '/';
