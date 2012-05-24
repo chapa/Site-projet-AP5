@@ -1,3 +1,5 @@
+CREATE TYPE t_status AS ENUM ('Visiteur', 'Membre', 'Administrateur');
+
 CREATE TABLE Series
 (
 	id 						integer,
@@ -15,7 +17,7 @@ CREATE TABLE Series
 	formatTime				numeric(3),
 	type					varchar(255),
 	nationality 			varchar(255),
-	nbwatched				integer,
+	nbwatched				integer				DEFAULT 0,
 
 	primary key (id)
 );
@@ -28,7 +30,7 @@ CREATE TABLE Seasons
 	yearstart				numeric(4),
 	yearend 				numeric(4),
 	mark					numeric(2,1),
-	nbwatched				integer,
+	nbwatched				integer				DEFAULT 0,
 	serie_id				integer,
 
 	primary key (id),
@@ -43,7 +45,7 @@ CREATE TABLE Episodes
 	originalTitle			varchar(255),
 	synopsis 				text,
 	mark 					numeric(2,1),
-	nbwatched  				integer,
+	nbwatched  				integer				DEFAULT 0,
 	season_id				integer,
 
 	primary key (id),
@@ -53,12 +55,13 @@ CREATE TABLE Episodes
 
 CREATE TABLE Users
 (
-	id 						integer,
+	id 						serial,
 	username				varchar(255),
 	password				varchar(256),
 	mail					varchar(255),
-	created					timestamp,
-	lastlogin 				timestamp,
+	status					t_status			DEFAULT 'Membre',
+	created					timestamp			DEFAULT NOW(),
+	lastlogin 				timestamp			DEFAULT NOW(),
 
 	primary key (id)
 );
@@ -66,10 +69,20 @@ CREATE TABLE Users
 CREATE TABLE Watch
 (
 	user_id					integer,
+	serie_id				integer,
+
+	primary key (user_id, serie_id),
+	foreign key (user_id) references Users(id),
+	foreign key (serie_id) references Series(id)
+);
+
+CREATE TABLE Watched
+(
+	user_id					integer,
 	episode_id				integer,
 	watched					boolean,
 
-	primary key (episode_id,user_id),
+	primary key (episode_id, user_id),
 	foreign key (user_id) references Users(id),
 	foreign key (episode_id) references Episodes(id)
 );
