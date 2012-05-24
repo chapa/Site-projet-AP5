@@ -12,54 +12,80 @@
 			$this->model = $this->controller->{$this->controller->model};
 		}
 
-		public function create($action, $method = 'post')
+		public function create($action = NULL, $method = 'get')
 		{
-			echo '<form action="' . $this->controller->Html->url($action) . '" method="' . $method . '">';
+			echo '<form action="' . $this->controller->Html->url($action) . '" method="' . $method . '" class="form-horizontal">';
 		}
 
-		public function input($name, $label, $options = array())
+		public function input($label, $name, $options = array())
 		{
-			$classError = '';
 			if(!empty($this->model->errors[$name]))
 			{
 				$error = $this->model->errors[$name];
-				$classError = ' error';
-				$this->controller->request->data->{$this->controller->model} = $this->controller->request->data;
+				echo '<div class="control-group error">';
 			}
-			if(empty($this->controller->request->data->{$this->controller->model}->$name))
+			else {
+				echo '<div class="control-group">';
+			}
+
+			if(empty($this->controller->request->data[$name]))
 				$value = '';
 			else
-				$value = $this->controller->request->data->{$this->controller->model}->$name;
-			$out = '<div class="clearfix' . $classError . '">
-						<label for="input' . $name . '">' . $label . '</label>
-						<div class="input">';
+				$value = $this->controller->request->data[$name];
+
+			echo '<label class="control-label" for="input' . $name . '">' . $label . '</label>
+				  <div class="controls">';
+
+			if(!empty($options['prepend']) OR !empty($options['append']))
+			{
+				echo '<div class="';
+					echo !empty($options['prepend']) ? 'input-prepend' : '';
+					echo !empty($options['append']) ? ' input-append' : '';
+				echo '">';
+				echo !empty($options['prepend']) ? '<span class="add-on">' . $options['prepend'] . '</span>' : '';
+			}
+
+			if(empty($options['type']))
+				$options['type'] = 'text';
+
 			$attr = '';
 			foreach($options as $k => $v)
 			{
-				$attr .= $k . ' = "' . $v . '" ';
+				if($k != 'type')
+					$attr .= ' ' . $k . '="' . $v . '"';
 			}
-			if(empty($options['type']))
-			{
-				$out .= '<input type="text" id="input' . $name . '" name="' . $name . '" value="' . $value . '" ' . $attr . '>';
-			}
-			elseif($options['type'] == 'textarea')
-			{
-				$out .= '<textarea id="input' . $name . '" name="' . $name . '" ' . $attr . '>' . $value . '</textarea>';
-			}
-			elseif($options['type'] == 'checkbox')
-			{
-				$out .= '<input type="hidden" name="' . $name . '" value="0"><input type="checkbox" name ="' . $name . '" value="1">';
-			}
-			if(!empty($error))
-				$out .= '<span class="help-inline">' . $error . '</span>';
-			$out .= '</div></div>';
 
-			echo $out;
+			switch($options['type'])
+			{
+				case 'text':
+					echo '<input type="text" id="input' . $name . '" name="' . $name . '" value="' . $value . '"' . $attr . '>';
+					break;
+				case 'password':
+					echo '<input type="password" id="input' . $name . '" name="' . $name . '" value="' . $value . '"' . $attr . '>';
+					break;
+				case 'textarea':
+					echo '<textarea id="input' . $name . '" name="' . $name . '"' . $attr . '>' . $value . '</textarea>';
+					break;
+				case 'checkbox':
+					echo '<input type="hidden" name="' . $name . '" value="0"><input type="checkbox" name ="' . $name . '" value="1">';
+					break;
+			}
+
+			if(!empty($options['prepend']) OR !empty($options['append']))
+			{
+				echo !empty($options['append']) ? '<span class="add-on">' . $options['append'] . '</span>' : '';
+				echo '</div>';
+			}
+
+			if(!empty($error))
+				echo '<p class="help-inline">' . $error . '</p>';
+
+			echo '</div></div>';
 		}
 
 		public function end($submit = 'Envoyer')
 		{
-			echo '<div class="actions"><input type="submit" value="' . $submit . '" class="btn primary"></div>';
+			echo '<div class="form-actions"><button type="submit" class="btn btn-primary">' . $submit . '</button></div>';
 			echo '</form>';
 		}
 	}
