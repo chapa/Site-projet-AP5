@@ -43,49 +43,58 @@
 			}
 		}
 
+		public function loadComponent($component)
+		{
+			if(empty($this->$component))
+			{
+				$name = ucfirst($component);
+				$file = ROOT . DS . 'core' . DS . 'controller' . DS . 'component' . DS . $name . 'Component.php';
+
+				if(!is_file($file))
+				{
+					die('Le component <strong>' . $name . '</strong> n\'existe pas');
+				}
+				else
+				{
+					require_once($file);
+					$toLoad = $name . 'Component';
+					$this->$name = new $toLoad;
+				}
+			}
+		}
+
 		public function loadComponents()
 		{
 			foreach($this->components as $component)
 			{
-				if(empty($this->$component))
-				{
-					$name = ucfirst($component);
-					$file = ROOT . DS . 'core' . DS . 'controller' . DS . 'component' . DS . $name . 'Component.php';
+				$this->loadComponent($component);
+			}
+		}
 
-					if(!is_file($file))
-					{
-						die('Le component <strong>' . $name . '</strong> n\'existe pas');
-					}
-					else
-					{
-						require_once($file);
-						$toLoad = $name . 'Component';
-						$this->$name = new $toLoad;
-					}
+		public function loadHelper($helper)
+		{
+			if(empty($this->$helper))
+			{
+				$name = ucfirst($helper);
+				$file = ROOT . DS . 'core' . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
+
+				if(!is_file($file))
+				{
+					die('Le helper <strong>' . $name . '</strong> n\'existe pas');
+				}
+				else
+				{
+					require_once($file);
+					$toLoad = $name . 'Helper';
+					$this->$name = new $toLoad;
 				}
 			}
 		}
 
 		public function loadHelpers()
 		{
-			foreach($this->helpers as $helper)
-			{
-				if(empty($this->$helper))
-				{
-					$name = ucfirst($helper);
-					$file = ROOT . DS . 'core' . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
-
-					if(!is_file($file))
-					{
-						die('Le helper <strong>' . $name . '</strong> n\'existe pas');
-					}
-					else
-					{
-						require_once($file);
-						$toLoad = $name . 'Helper';
-						$this->$name = new $toLoad;
-					}
-				}
+			foreach($this->helpers as $helper) {
+				$this->loadHelper($helper);
 			}
 		}
 
@@ -164,5 +173,25 @@
 				'title_for_layout' => 'Erreur ' . $code
 			));
 			$this->render('/errors/' . $code);
+		}
+
+		/**
+		* Permer de rediriger vers une nouvelle page
+		* @param $url : url vers laquelle rediriger
+		* @param $code : status http à assigner à la page
+		**/
+		public function redirect($url, $code = 301)
+		{
+			$status = array(
+				'200' => '200 OK',
+				'301' => '301 Moved Permanently',
+				'403' => '403 Forbidden',
+				'404' => '404 Not Found'
+			);
+			header('HTTP/1.1 ' . $status[$code]);
+
+			$this->loadHelper('Html');
+			header('Location: ' . $this->Html->url($url));
+			die();
 		}
 	}
