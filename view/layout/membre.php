@@ -26,8 +26,7 @@
 								<li><a href="#">METTRE DES LIENS IÇI</a></li>
 							</ul>
 							<ul class="nav pull-right">
-								<li><?php echo $this->Html->link('S\'inscrire', array('controller' => 'users', 'action' => 'signup')) ?></li>
-								<li><?php echo $this->Html->link('Se connecter', array('controller' => 'users', 'action' => 'login')) ?></li>
+								<li><?php echo $this->Html->link('Se déconnecter', array('controller' => 'users', 'action' => 'logout')) ?></li>
 							</ul>
 						</div>
 					</div>
