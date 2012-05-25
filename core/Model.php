@@ -151,6 +151,14 @@
 		}
 
 		/**
+		* Fonction débile juste pour ne pas avoir un tableau à une valeurs lors de certaines recherches
+		**/
+		public function findFirst($req = array())
+		{
+			return current($this->find($req));
+		}
+
+		/**
 		* Fonction permettant d'enregistrer des données (ajout ou modification).
 		* Si la clé primaire est renseignée on fait une modification, sinon une insertion
 		* @var $data['champ'] = 'valeur'

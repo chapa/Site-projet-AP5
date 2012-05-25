@@ -10,7 +10,7 @@
 		echo '<ol style="display:none">';
 		foreach($debug as $k=>$v)
 		{
-			if($k > 0)
+			if($k > 1)
 				echo '<li><strong>' . $v['file'] . '</strong> (line ' . $v['line'] . ')</li>';
 		}
 		echo '</ol>';

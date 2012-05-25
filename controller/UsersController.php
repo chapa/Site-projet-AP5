@@ -8,8 +8,8 @@
 			{
 				if($this->User->validate($this->request->data, 'login'))
 				{
-					$d = $this->User->find(array(
-						'fields' => 'id, username, status',
+					$d = $this->User->findFirst(array(
+						'fields' => 'id, status',
 						'conditions' => array(
 							'username' => $this->request->data['username'],
 							'password' => sha1($this->request->data['password'])
@@ -18,6 +18,9 @@
 
 					if(!empty($d))
 					{
+						$_SESSION['user']['id'] = $d->id;
+						$_SESSION['user']['status'] = $d->status;
+						//Faire la redirection
 						$this->Session->setFlash('Redirection ... Vous avez bien été connecté ... enfin bientot :-°');
 					}
 					else
