@@ -165,6 +165,7 @@
 				'403' => '403 Forbidden',
 				'404' => '404 Not Found'
 			);
+			$this->loadHelper('Html');
 			header('HTTP/1.1 ' . $status[$code]);
 			if(is_file(ROOT . DS . 'view' . DS . 'layout' . DS . 'error.php'))
 				$this->layout = 'error';
