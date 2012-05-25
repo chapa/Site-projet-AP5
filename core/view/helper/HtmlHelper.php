@@ -83,7 +83,7 @@
 						$out .= '/' . $v;
 				}
 			}
-			else
+			else if($url != '/')
 			{
 				$out = $url;
 			}
@@ -97,9 +97,7 @@
 			
 			if(!empty($url))
 			{
-				if($url == '/')
-					$out .= BASE_URL;
-				elseif(!is_array($url) AND strstr($url, 'http://'))
+				if(!is_array($url) AND strstr($url, 'http://'))
 					$out .= $url;
 				else
 					$out .= $this->url($url, false);
