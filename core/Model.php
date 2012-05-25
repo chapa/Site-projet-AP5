@@ -75,11 +75,11 @@
 
 		/**
 		* Fonction permettant de retrouver des données
-		* @var $req['fields'] : champs à rechercher (SELECT ...), sinon *
-		* @var $req['tables'] : tables dans lesquelles rechercher (FROM ...), sinon $this->table
-		* @var $req['conditions'] : conditions de la recherche (WHERE ...), sinon true
-		* @var $req['order'] : ordre dans lequel les données seront renvoyés (ORDER ...), sinon rien
-		* @var $req['limit'] : limite de la recherche (LIMIT ...), sinon rien
+		* @param $req['fields'] : champs à rechercher (SELECT ...), sinon *
+		* @param $req['tables'] : tables dans lesquelles rechercher (FROM ...), sinon $this->table
+		* @param $req['conditions'] : conditions de la recherche (WHERE ...), sinon true
+		* @param $req['order'] : ordre dans lequel les données seront renvoyés (ORDER ...), sinon rien
+		* @param $req['limit'] : limite de la recherche (LIMIT ...), sinon rien
 		**/
 		public function find($req = array())
 		{
@@ -161,7 +161,7 @@
 		/**
 		* Fonction permettant d'enregistrer des données (ajout ou modification).
 		* Si la clé primaire est renseignée on fait une modification, sinon une insertion
-		* @var $data['champ'] = 'valeur'
+		* @param $data['champ'] = 'valeur'
 		**/
 		public function save($data = array())
 		{
@@ -203,10 +203,10 @@
 
 		/**
 		* Fonction supplémentaire permettant la mise à jour de données (si condition différente de id = valeur)
-		* @var $req['fields'] : champs à modifier
-		* @var $req['fields']['champ'] = 'valeur' ou $req['fields'] = 'champ = valeur'
-		* @var $req['conditions'] : condition de la mise à jour
-		* @var $req['conditions']['champ'] = 'valeur' ou $req['conditions'] = 'champ = valeur'
+		* @param $req['fields'] : champs à modifier
+		* @param $req['fields']['champ'] = 'valeur' ou $req['fields'] = 'champ = valeur'
+		* @param $req['conditions'] : condition de la mise à jour
+		* @param $req['conditions']['champ'] = 'valeur' ou $req['conditions'] = 'champ = valeur'
 		**/
 		public function update($req = array())
 		{
@@ -262,8 +262,8 @@
 
 		/**
 		* Fonction permettant la suppression de données
-		* @var $conds : conditions de la suppression
-		* @var $conds['champ'] = 'valeur' ou $conds = 'champ = valeur'
+		* @param $conds : conditions de la suppression
+		* @param $conds['champ'] = 'valeur' ou $conds = 'champ = valeur'
 		**/
 		public function delete($conds = array())
 		{
