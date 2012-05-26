@@ -77,10 +77,10 @@
 				
 				foreach($url as $k=>$v)
 				{
-					if($k != 'controller' AND $k != 'action')
-						$out .= '/' . $k . ':' . $v;
-					if(empty($k))
+					if(is_numeric($k))
 						$out .= '/' . $v;
+					else if($k != 'controller' AND $k != 'action')
+						$out .= '/' . $k . ':' . $v;
 				}
 			}
 			else if($url != '/')
