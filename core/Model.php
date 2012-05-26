@@ -68,9 +68,18 @@
 			$pre->execute();
 
 			if(strpos('SELECT', $sql) == 0)
-				return $pre->fetchAll(PDO::FETCH_OBJ);
+			{
+				$d = $pre->fetchAll(PDO::FETCH_OBJ);
+				$d2 = array();
+				foreach ($d as $v) {
+					$d2[] = (array) $v;
+				}
+				return $d2;
+			}
 			else
+			{
 				return true;
+			}
 		}
 
 		/**
