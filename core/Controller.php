@@ -181,7 +181,7 @@
 		* @param $url : url vers laquelle rediriger
 		* @param $code : status http à assigner à la page
 		**/
-		public function redirect($url, $code = 301)
+		public function redirect($url = array(), $code = 301)
 		{
 			$status = array(
 				'200' => '200 OK',
