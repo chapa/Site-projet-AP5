@@ -36,7 +36,7 @@
 											array('controller' => 'users', 'action' => 'profil')); ?>
 									</li>
 									<li>
-										<?php echo $this->Html->link('<i class="icon-pencil"></i>&nbsp;&nbsp;Editer mon profil',
+										<?php echo $this->Html->link('<i class="icon-pencil"></i>&nbsp;&nbsp;Modifier mon profil',
 											array('controller' => 'users', 'action' => 'edit')); ?>
 									</li>
 									<li class="divider"></li>
