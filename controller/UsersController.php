@@ -11,7 +11,7 @@
 					if($this->User->validate($this->request->data, 'login'))
 					{
 						$d = $this->User->findFirst(array(
-							'fields' => 'id, status',
+							'fields' => 'id, username, status',
 							'conditions' => array(
 								'username' => $this->request->data['username'],
 								'password' => sha1($this->request->data['password'])
@@ -21,6 +21,7 @@
 						if(!empty($d))
 						{
 							$_SESSION['user']['id'] = $d['id'];
+							$_SESSION['user']['username'] = $d['username'];
 							$_SESSION['user']['status'] = $d['status'];
 
 							$this->Session->setFlash('Vous êtes mainenant connecté');
@@ -73,11 +74,37 @@
 				}
 				else
 				{
-					$d = $this->User->findFirst(array(
-						'conditions' => array('id' => $id)
-					));
-
-					$this->set('user', $d);
+					if(!empty($this->request->data))
+					{
+						if(isset($this->request->data['username']) AND $_SESSION['user']['status'] != 'Administrateur')
+							unset($this->request->data['username']);
+						$data['id'] = $id;
+						foreach($this->request->data as $k => $v) {
+							if(!empty($v) AND in_array($k, array('username', 'mail', 'newPass1', 'newPass2', 'oldPass')))
+								$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
+						}
+						
+						if($this->User->validate($data, 'edit'))
+						{
+							$this->User->save($data);
+							$this->Session->setFlash('Vos modifications ont bien étés enregistrées');
+							$this->redirect();
+						}
+						else
+						{
+							$this->Session->setFlash('Erreur lors de la saisie des champs', 'error');
+							$this->request->data = $data;
+							$this->request->data += $this->User->findFirst(array(
+								'conditions' => array('id' => $id)
+							));
+						}
+					}
+					else
+					{
+						$this->request->data = $this->User->findFirst(array(
+							'conditions' => array('id' => $id)
+						));
+					}
 				}
 			}
 			else
