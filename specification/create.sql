@@ -1,4 +1,4 @@
-CREATE TYPE t_status AS ENUM ('Visiteur', 'Membre', 'Administrateur');
+CREATE TYPE t_status AS ENUM ('Banni', 'Membre', 'Administrateur');
 
 CREATE TABLE Series
 (
