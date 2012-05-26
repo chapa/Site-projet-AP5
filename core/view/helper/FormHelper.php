@@ -28,7 +28,9 @@
 				echo '<div class="control-group">';
 			}
 
-			if(empty($this->controller->request->data[$name]))
+			if(isset($options['value']))
+				$value = $options['value'];
+			else if(empty($this->controller->request->data[$name]))
 				$value = '';
 			else
 				$value = $this->controller->request->data[$name];
@@ -51,7 +53,7 @@
 			$attr = '';
 			foreach($options as $k => $v)
 			{
-				if($k != 'type')
+				if($k != 'type' AND $k != 'id' AND $k != 'name' AND $k != 'value')
 					$attr .= ' ' . $k . '="' . $v . '"';
 			}
 
