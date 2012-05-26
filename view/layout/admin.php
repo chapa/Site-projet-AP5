@@ -41,6 +41,11 @@
 									</li>
 									<li class="divider"></li>
 									<li>
+										<?php echo $this->Html->link('<i class="icon-list"></i>&nbsp;&nbsp;Liste des membres</a>',
+											array('controller' => 'users', 'action' => 'list')); ?>
+									</li>
+									<li class="divider"></li>
+									<li>
 										<?php echo $this->Html->link('<i class="icon-off"></i>&nbsp;&nbsp;Me déconnecter',
 											array('controller' => 'users', 'action' => 'logout')) ?>
 									</li>
