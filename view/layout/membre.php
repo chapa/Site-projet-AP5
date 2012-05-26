@@ -42,7 +42,7 @@
 									<li class="divider"></li>
 									<li>
 										<?php echo $this->Html->link('<i class="icon-list"></i>&nbsp;&nbsp;Liste des membres</a>',
-											array('controller' => 'users', 'action' => 'list')); ?>
+											array('controller' => 'users', 'action' => 'liste')); ?>
 									</li>
 									<li class="divider"></li>
 									<li>
