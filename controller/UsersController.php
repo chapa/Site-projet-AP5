@@ -58,4 +58,33 @@
 			}
 			$this->redirect('/');
 		}
+
+		public function edit($id = 0)
+		{
+			if(!empty($_SESSION['user']))
+			{
+				if($id == 0)
+					$id = $_SESSION['user']['id'];
+
+				if($id != $_SESSION['user']['id'] AND $_SESSION['user']['status'] != 'Administrateur')
+				{
+					$this->Session->setFlash('Vous ne pouvez pas modifier le profil d\'un autre membre', 'error');
+					$this->redirect(array('action' => 'edit'));
+				}
+				else
+				{
+					$d = $this->User->findFirst(array(
+						'conditions' => array('id' => $id)
+					));
+					
+					$this->set('user', $d);
+				}
+			}
+			else
+			{
+				/* FAIRE PEUT ETRE UNE PAGE 403 IÇI, POUR DIRE QU'ON A PAS LE DROIT D'Y ALLER */
+				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
+				$this->redirect(array('action' => 'login'));
+			}
+		}
 	}
