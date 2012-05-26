@@ -14,7 +14,7 @@
 
 			<div class="navbar navbar-fixed-top">
 				<div class="navbar-inner">
-					<div class="container">
+					<div class="container-fluid">
 						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -23,10 +23,14 @@
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li><a href="#">METTRE DES LIENS IÇI</a></li>
+								<li class="active"><a href="#">METTRE</a></li>
+								<li><a href="#">DES</a></li>
+								<li><a href="#">LIENS</a></li>
+								<li><a href="#">IÇI</a></li>
 							</ul>
 							<ul class="nav pull-right">
 								<li><?php echo $this->Html->link('S\'inscrire', array('controller' => 'users', 'action' => 'signup')) ?></li>
+								<li class="divider-vertical"></li>
 								<li><?php echo $this->Html->link('Se connecter', array('controller' => 'users', 'action' => 'login')) ?></li>
 							</ul>
 						</div>

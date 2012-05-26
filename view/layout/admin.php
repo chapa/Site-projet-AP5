@@ -14,7 +14,7 @@
 
 			<div class="navbar navbar-fixed-top">
 				<div class="navbar-inner">
-					<div class="container">
+					<div class="container-fluid">
 						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -23,24 +23,29 @@
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li><a href="#">METTRE DES LIENS IÇI</a></li>
+								<li class="active"><a href="#">METTRE</a></li>
+								<li><a href="#">DES</a></li>
+								<li><a href="#">LIENS</a></li>
+								<li><a href="#">IÇI</a></li>
 							</ul>
-							<ul class="nav pull-right">
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte <b class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li>
-											<?php echo $this->Html->link('<i class="icon-user"></i>&nbsp;&nbsp;Afficher mon profil',
-												array('controller' => 'users', 'action' => 'profil')); ?>
-										</li>
-										<li>
-											<?php echo $this->Html->link('<i class="icon-pencil"></i>&nbsp;&nbsp;Editer mon profil',
-												array('controller' => 'users', 'action' => 'edit')); ?>
-										</li>
-									</ul>
-								</li>
-								<li><?php echo $this->Html->link('Se déconnecter', array('controller' => 'users', 'action' => 'logout')) ?></li>
-							</ul>
+							<div class="btn-group pull-right">
+								<a href="#" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> <?php echo $_SESSION['user']['username']; ?> <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li>
+										<?php echo $this->Html->link('<i class="icon-user"></i>&nbsp;&nbsp;Afficher mon profil',
+											array('controller' => 'users', 'action' => 'profil')); ?>
+									</li>
+									<li>
+										<?php echo $this->Html->link('<i class="icon-pencil"></i>&nbsp;&nbsp;Editer mon profil',
+											array('controller' => 'users', 'action' => 'edit')); ?>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<?php echo $this->Html->link('<i class="icon-off"></i>&nbsp;&nbsp;Me déconnecter',
+											array('controller' => 'users', 'action' => 'logout')) ?>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
