@@ -8,6 +8,7 @@
 			$(this).button('loading')
 		})
 		$('[rel="tooltip"]').tooltip();
+		$('.dropdown-toggle').dropdown();
 	})
 
 }(window.jQuery)
