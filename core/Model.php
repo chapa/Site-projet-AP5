@@ -150,6 +150,20 @@
 				}
 			}
 
+			if(!empty($req['group']))
+			{
+				$sql .= ' GROUP BY ';
+
+				if(is_array($req['group']))
+				{
+					$sql .= implode(', ', $req['group']);
+				}
+				else
+				{
+					$sql .= $req['group'];
+				}
+			}
+
 			if(!empty($req['order']))
 				$sql .= ' ORDER BY ' . $req['order'];
 
