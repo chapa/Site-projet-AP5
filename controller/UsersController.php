@@ -20,8 +20,8 @@
 
 						if(!empty($d))
 						{
-							$_SESSION['user']['id'] = $d->id;
-							$_SESSION['user']['status'] = $d->status;
+							$_SESSION['user']['id'] = $d['id'];
+							$_SESSION['user']['status'] = $d['status'];
 
 							$this->Session->setFlash('Vous êtes mainenant connecté');
 							$this->redirect('/');
@@ -76,7 +76,7 @@
 					$d = $this->User->findFirst(array(
 						'conditions' => array('id' => $id)
 					));
-					
+
 					$this->set('user', $d);
 				}
 			}
