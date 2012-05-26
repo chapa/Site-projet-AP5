@@ -83,7 +83,7 @@
 							if(!empty($v) AND in_array($k, array('username', 'mail', 'newPass1', 'newPass2', 'oldPass')))
 								$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
 						}
-						
+
 						if($this->User->validate($data, 'edit'))
 						{
 							$this->User->save($data);
@@ -109,7 +109,35 @@
 			}
 			else
 			{
-				/* FAIRE PEUT ETRE UNE PAGE 403 IÇI, POUR DIRE QU'ON A PAS LE DROIT D'Y ALLER */
+				/* FAIRE PEUT ETRE UNE PAGE 403 ICI, POUR DIRE QU'ON A PAS LE DROIT D'Y ALLER */
+				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
+				$this->redirect(array('action' => 'login'));
+			}
+		}
+
+		public function liste()
+		{
+			if(!empty($_SESSION['user']))
+			{
+				$nbMembres = $this->User->findFirst(array(
+					'fields' => 'COUNT(*)'
+				));
+				$membres = $this->User->find(array(
+					'fields' => 'id, username, mail, status, count(serie_id) nbseries',
+					'tables' => 'users, watch',
+					'conditions' => 'id = user_id',
+					'group' => 'id',
+					'order' => 'status DESC, id'
+				));
+
+				$this->set(array(
+					'nbMembres' => $nbMembres['count'],
+					'membres' => $membres
+				));
+			}
+			else
+			{
+				/* ICI AUSSI, 403 ? */
 				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
 				$this->redirect(array('action' => 'login'));
 			}
