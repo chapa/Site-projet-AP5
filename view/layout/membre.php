@@ -26,6 +26,19 @@
 								<li><a href="#">METTRE DES LIENS IÇI</a></li>
 							</ul>
 							<ul class="nav pull-right">
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mon compte <b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li>
+											<?php echo $this->Html->link('<i class="icon-user"></i>&nbsp;&nbsp;Afficher mon profil',
+												array('controller' => 'users', 'action' => 'profil')); ?>
+										</li>
+										<li>
+											<?php echo $this->Html->link('<i class="icon-pencil"></i>&nbsp;&nbsp;Editer mon profil',
+												array('controller' => 'users', 'action' => 'edit')); ?>
+										</li>
+									</ul>
+								</li>
 								<li><?php echo $this->Html->link('Se déconnecter', array('controller' => 'users', 'action' => 'logout')) ?></li>
 							</ul>
 						</div>
