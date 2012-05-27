@@ -11,7 +11,7 @@
 					if($this->User->validate($this->request->data, 'login'))
 					{
 						$d = $this->User->findFirst(array(
-							'fields' => 'id, username, status',
+							'fields' => 'id, username, status, lastlogin',
 							'conditions' => array(
 								'username' => $this->request->data['username'],
 								'password' => sha1($this->request->data['password'])
@@ -20,11 +20,14 @@
 
 						if(!empty($d))
 						{
+							$this->loadHelper('Date');
 							$_SESSION['user']['id'] = $d['id'];
 							$_SESSION['user']['username'] = $d['username'];
 							$_SESSION['user']['status'] = $d['status'];
 
-							$this->Session->setFlash('Vous êtes mainenant connecté');
+							$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
+
+							$this->Session->setFlash('Vous êtes mainenant connecté. Dernière connexion le ' . strtolower($this->Date->show($d['lastlogin'], true, true, true)));
 							$this->redirect('/');
 						}
 						else
