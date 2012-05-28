@@ -153,11 +153,10 @@
 				{
 					foreach($this->request->data as $k => $v) {
 						$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
+					}
 
 					if($this->User->validate($data, 'inscription'))
 					{
-						
-						
 						$this->User->save($data);
 						$this->Session->setFlash('Vos modifications ont bien étés enregistrées');
 						$this->redirect();
@@ -170,7 +169,7 @@
 							'conditions' => array('id' => $id)
 						));
 					}
-				
+				}
 			}
 		}
 	}
