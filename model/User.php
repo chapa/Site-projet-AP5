@@ -63,8 +63,9 @@
 				}
 
 			}
-			else if($action=signup)
+			else if($action=='signup')
 			{
+				
 				if(empty($data['mail']))
 					$this->errors['mail'] = 'Votre adresse email ne doit pas être vide';
 				else if(!filter_var($data['mail'], FILTER_VALIDATE_EMAIL))
@@ -76,44 +77,47 @@
 				{
 					$this->errors['password1'] = 'Veuillez saisir votre mot de passe';
 				}
-				else if($data['password1']<6)
+				else if(strlen($data['password1'])<6)
 					{
 						$this->errors['password1'] = 'Votre mot de passe doit contenir au moins 6 caractères';
 					}
-				if(isset($data[password2]))
+				else if(isset($data['password2']))
 				{
 					if($data['password2']!=$data['password1'])
 					{
-						$this->errors[password2]= 'Les mots de passes sont différents';
-						$this->errors[password2]= 'Les mots de passes sont différents';
+						$this->errors['password2']= 'Les mots de passes sont différents';
+						$this->errors['password2']= 'Les mots de passes sont différents';
 					}
 					else 
 					{
 						$data['password']=sha1($data['password1']);
-
+						unset($data['password1']);
+						unset($data['password2']);
+				
 					}
+
 
 				}
 
+
 				if(empty($data['username']))
 				{
-					$this->errors[username]= 'Les mots de passes sont différents';
+					$this->errors['username']= 'Entrez votre nom d\'utilisateur';
 				}
 				else
 				{
 					$d = $this->find(array(
-								'conditions' => array(
-									'username' => $data['username'])
-								)
+								'conditions' => array('username' => $data['username'])));
 					if(!empty($d))
 					{
-						$this->errors[username]='ce nom d\'utilisateur est déja pris';
+						$this->errors['username']='ce nom d\'utilisateur est déja pris';
 
 					}
 				}
 
 
 			}
+			debug($this->errors);
 			return empty($this->errors);
 		}
 	}

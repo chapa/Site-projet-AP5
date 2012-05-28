@@ -147,30 +147,30 @@
 		}
 		public function signup ()
 		{
-			if(!empty($_SESSION['user']))
+			if(empty($_SESSION['user']))
 			{
 				if(!empty($this->request->data))
 				{
 					foreach($this->request->data as $k => $v) {
 						$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
-
-					if($this->User->validate($data, 'inscription'))
+					}
+					debug($data);
+					if($this->User->validate($data, 'signup'))
 					{
 						
-						
+						debug($data);
 						$this->User->save($data);
-						$this->Session->setFlash('Vos modifications ont bien étés enregistrées');
-						$this->redirect();
+						$this->Session->setFlash('Votre compte a été créer');
+						//$this->redirect();
 					}
 					else
 					{
 						$this->Session->setFlash('Erreur lors de la saisie des champs', 'error');
 						$this->request->data = $data;
-						$this->request->data += $this->User->findFirst(array(
-							'conditions' => array('id' => $id)
-						));
+						
 					}
 				
+				}
 			}
 		}
 	}
