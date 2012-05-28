@@ -124,7 +124,7 @@
 
 
 			}
-			debug($this->errors);
+			
 			return empty($this->errors);
 		}
 	}

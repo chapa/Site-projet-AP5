@@ -155,11 +155,11 @@
 						$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
 					}
 
-					debug($data);
+					
 					if($this->User->validate($data, 'signup'))
 					{
 						
-						debug($data);
+						
 
 
 						$this->User->save($data);
@@ -168,6 +168,7 @@
 					}
 					else
 					{
+						
 						$this->Session->setFlash('Erreur lors de la saisie des champs', 'error');
 						$this->request->data = $data;
 						
