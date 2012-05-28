@@ -154,11 +154,14 @@
 					foreach($this->request->data as $k => $v) {
 						$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
 					}
+
 					debug($data);
 					if($this->User->validate($data, 'signup'))
 					{
 						
 						debug($data);
+
+
 						$this->User->save($data);
 						$this->Session->setFlash('Votre compte a été créer');
 						//$this->redirect();
@@ -169,7 +172,9 @@
 						$this->request->data = $data;
 						
 					}
+
 				
+
 				}
 			}
 		}

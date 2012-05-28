@@ -63,7 +63,10 @@
 				}
 
 			}
-			else if($action=='signup')
+
+			
+			else if($action == 'signup')
+
 			{
 				
 				if(empty($data['mail']))
@@ -81,7 +84,9 @@
 					{
 						$this->errors['password1'] = 'Votre mot de passe doit contenir au moins 6 caractères';
 					}
+
 				else if(isset($data['password2']))
+
 				{
 					if($data['password2']!=$data['password1'])
 					{
@@ -102,6 +107,7 @@
 
 				if(empty($data['username']))
 				{
+
 					$this->errors['username']= 'Entrez votre nom d\'utilisateur';
 				}
 				else
@@ -111,6 +117,7 @@
 					if(!empty($d))
 					{
 						$this->errors['username']='ce nom d\'utilisateur est déja pris';
+
 
 					}
 				}
