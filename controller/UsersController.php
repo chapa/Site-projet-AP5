@@ -11,7 +11,7 @@
 					if($this->User->validate($this->request->data, 'login'))
 					{
 						$d = $this->User->findFirst(array(
-							'fields' => 'id, username, status, lastlogin',
+							'fields' => 'id, username, status, lastlogin,mail',
 							'conditions' => array(
 								'username' => $this->request->data['username'],
 								'password' => sha1($this->request->data['password'])
@@ -24,6 +24,8 @@
 							$_SESSION['user']['id'] = $d['id'];
 							$_SESSION['user']['username'] = $d['username'];
 							$_SESSION['user']['status'] = $d['status'];
+							$_SESSION['user']['mail'] = $d['mail'];
+							$_SESSION['user']['lastlogin'] = $d['lastlogin'];
 
 							$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
 
@@ -129,7 +131,7 @@
 					'fields' => 'id, username, mail, status, count(serie_id) nbseries',
 					'tables' => 'users, watch',
 					'conditions' => 'id = user_id',
-					'group' => 'id',
+					'group' => 'id,username,mail,status',
 					'order' => 'status DESC, id'
 				));
 
@@ -162,19 +164,40 @@
 						
 
 
-						$this->User->save($data);
+						$this->User->save($data); 
 						$this->Session->setFlash('Votre compte a été créer');
 						//$this->redirect();
 					}
 					else
 					{
-						
+
 						$this->Session->setFlash('Erreur lors de la saisie des champs', 'error');
 						$this->request->data = $data;
 						
 					}
 
 				
+
+				}
+			}
+		}
+		public function profil ($id=0)
+		{
+			debug($_SESSION);
+			if(!empty($_SESSION['user']))//l'utilisateur doit etre connecter pour voir les profils
+			{
+				if($id!=0)//affiche son profil
+				{
+					$profil['username']=$_SESSION['user']['username'];
+					$profil['mail']=$_SESSION['user']['mail'];
+					$profil['status']=$_SESSION['user']['status'];
+					$profil['nbwatched']=$membres = $this->User->find(array(
+					'fields' => ' count(serie_id) nbseries',
+					'tables' => 'watched',
+					'conditions' => 'id = user_id',
+					'group' => 'id,username,mail,status',
+					'order' => 'status DESC, id'
+				));
 
 				}
 			}

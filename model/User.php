@@ -68,12 +68,19 @@
 			else if($action == 'signup')
 
 			{
+				$d = $this->find(array('conditions' => array('mail' => $data['mail'])));
 				
 				if(empty($data['mail']))
 					$this->errors['mail'] = 'Votre adresse email ne doit pas être vide';
 				else if(!filter_var($data['mail'], FILTER_VALIDATE_EMAIL))
 				{
 					$this->errors['mail'] = 'Votre adresse email n\'a pas une forme valide';
+				}
+				
+				
+				else if(!empty($d))
+				{
+					$this->errors['mail'] = 'Cette adresse mail est déja associée a un compte';
 				}
 				
 				if(empty($data['password1']))
@@ -112,8 +119,7 @@
 				}
 				else
 				{
-					$d = $this->find(array(
-								'conditions' => array('username' => $data['username'])));
+					$d = $this->find(array('conditions' => array('username' => $data['username'])));
 					if(!empty($d))
 					{
 						$this->errors['username']='ce nom d\'utilisateur est déja pris';
