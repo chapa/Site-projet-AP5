@@ -140,7 +140,7 @@
 					'group' => 'id,username,mail,status',
 					'order' => 'status DESC, id'
 				));
-
+				debug($membres);
 				$this->set(array(
 					'nbMembres' => $nbMembres['count'],
 					'membres' => $membres

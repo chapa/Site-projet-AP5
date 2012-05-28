@@ -27,7 +27,7 @@
 						<?php
 							echo $this->Html->link(
 								$v['username'],
-								array('controller' => 'users', 'action' => 'profile'),
+								array('controller' => 'users', 'action' => 'profil',$v['id']),
 								array('rel' => 'tooltip', 'data-original-title' => 'Afficher le profil de ' . $v['username'])
 							);
 						?>
