@@ -189,22 +189,71 @@
 		}
 		public function profil ($id=0)
 		{
-			debug($_SESSION);
+			
 			if(!empty($_SESSION['user']))//l'utilisateur doit etre connecter pour voir les profils
 			{
-				if($id!=0)//affiche son profil
+				if($id==0)//affiche son profil
 				{
 					$profil['username']=$_SESSION['user']['username'];
 					$profil['mail']=$_SESSION['user']['mail'];
 					$profil['status']=$_SESSION['user']['status'];
-					$profil['nbwatched']=$membres = $this->User->find(array(
-					'fields' => ' count(serie_id) nbseries',
+					
+					$d['nbwatched'] = $this->User->find(array(//nombre d'episode vus
+					'fields' => 'count(*) ',
 					'tables' => 'watched',
-					'conditions' => 'id = user_id',
-					'group' => 'id,username,mail,status',
-					'order' => 'status DESC, id'
-				));
+					'conditions' => array('user_id' => $_SESSION['user']['id'])
+						));
+					
+					
+					$d['nbwatch'] = $this->User->find(array(//nombre d'episode vus
+					'fields' => 'count(*) ',
+					'tables' => 'watch',
+					'conditions' => array('user_id' => $_SESSION['user']['id'])
+						));
+					
+					$profil['nbwatch']=$d['nbwatch'][0]['count'];
+					$profil['nbwatched']=$d['nbwatched'][0]['count'];
+					
+					unset( $d);
+					
+					$this->set(array(
+					'profil' => $profil
+					));
+				}
+				else
+				{
+					$d = $this->User->findFirst(array(
+							'fields' => ' username, status, lastlogin,mail',
+							'conditions' => array('id' => $id)
+							));
 
+					
+
+					$profil['username']=$d['username'];
+					$profil['mail']=$d['mail'];
+					$profil['status']=$d['status'];
+
+					$d['nbwatched'] = $this->User->find(array(//nombre d'episode vus
+					'fields' => 'count(*) ',
+					'tables' => 'watched',
+					'conditions' => array('user_id' => $id)
+						));
+					
+					
+					$d['nbwatch'] = $this->User->find(array(//nombre d'episode vus
+					'fields' => 'count(*) ',
+					'tables' => 'watch',
+					'conditions' => array('user_id' => $id)
+						));
+					$profil['nbwatch']=$d['nbwatch'][0]['count'];
+					$profil['nbwatched']=$d['nbwatched'][0]['count'];
+					
+					unset( $d);
+					
+					$this->set(array(
+					'profil' => $profil
+					));
+					
 				}
 			}
 		}
