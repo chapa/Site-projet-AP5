@@ -8,13 +8,18 @@
 			{
 				if(!empty($this->request->data))
 				{
-					if($this->User->validate($this->request->data, 'login'))
+					foreach($this->request->data as $k => $v) {
+						if(!empty($v) AND in_array($k, array('username', 'password')))
+							$data[$k] = html_entity_decode(preg_replace_callback('#(%[0-9]+)#', create_function('$m', 'return "&#".hexdec($m[0]).";";'), $v));
+					}
+
+					if($this->User->validate($data, 'login'))
 					{
 						$d = $this->User->findFirst(array(
 							'fields' => 'id, username, status, lastlogin,mail',
 							'conditions' => array(
-								'username' => $this->request->data['username'],
-								'password' => sha1($this->request->data['password'])
+								'username' => $data['username'],
+								'password' => sha1($data['password'])
 							)
 						));
 
@@ -41,6 +46,7 @@
 					{
 						$this->Session->setFlash('Erreur lors de la saisie des champs', 'error');
 					}
+					$this->request->data = $data;
 				}
 			}
 			else
