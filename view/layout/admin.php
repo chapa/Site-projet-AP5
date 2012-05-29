@@ -23,10 +23,10 @@
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li <?php echo ($this->request->controller == 'series' AND $this->request->action = 'liste') ? ' class = active' : '' ?>>
+								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'liste') ? ' class = active' : '' ?>>
 									<?php echo $this->Html->link('Mes séries', array('controller' => 'series', 'action' => 'liste')); ?>
 								</li>
-								<li <?php echo ($this->request->controller == 'series' AND $this->request->action = 'search') ? ' class = active' : '' ?>>
+								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'search') ? ' class = active' : '' ?>>
 									<?php echo $this->Html->link('Rechercher une série', array('controller' => 'series', 'action' => 'search')); ?>
 								</li>
 							</ul>
