@@ -8,8 +8,8 @@
 				if($this->request->data['id'] == $_SESSION['user']['id'])
 					echo $this->Html->link(
 						'<i class="icon-remove icon-white"></i> Supprimer mon compte',
-						array('controller' => 'users', 'action' => 'supprimer'),
-						array('class' => 'btn btn-danger'));
+						'#supprCompte',
+						array('class' => 'btn btn-danger', 'data-toggle' => 'modal'));
 			?>
 		</div>
 	</h1>
@@ -28,5 +28,23 @@
 				$this->Form->input('Ancien mot de passe', 'oldPass', array('type' => 'password'));
 			$this->Form->end('Modifier');
 		?>
+	</div>
+</div>
+
+<div class="modal hide fade" id="supprCompte">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3><i class="icon-exclamation-sign warnIconModal"></i> Attention</h3>
+	</div>
+	<div class="modal-body">
+		<p>Êtes-vous certain de voulour supprimer votre compte ?<br>Cette action est <strong>irréversible</strong></p>
+	</div>
+	<div class="modal-footer">
+		<?php echo $this->Html->link(
+			'Supprimer mon compte',
+			array('controller' => 'users', 'action' => 'supprimer'),
+			array('class' => 'btn btn-danger')
+		); ?>
+		<a class="btn" data-dismiss="modal">Annuler</a>
 	</div>
 </div>
