@@ -23,10 +23,12 @@
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li class="active"><a href="#">METTRE</a></li>
-								<li><a href="#">DES</a></li>
-								<li><a href="#">LIENS</a></li>
-								<li><a href="#">IÇI</a></li>
+								<li <?php echo ($this->request->controller == 'series' AND $this->request->action = 'liste') ? ' class = active' : '' ?>>
+									<?php echo $this->Html->link('Mes séries', array('controller' => 'series', 'action' => 'liste')); ?>
+								</li>
+								<li <?php echo ($this->request->controller == 'series' AND $this->request->action = 'search') ? ' class = active' : '' ?>>
+									<?php echo $this->Html->link('Rechercher une série', array('controller' => 'series', 'action' => 'search')); ?>
+								</li>
 							</ul>
 							<div class="btn-group pull-right">
 								<a href="#" class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> <?php echo $_SESSION['user']['username']; ?> <b class="caret"></b></a>
