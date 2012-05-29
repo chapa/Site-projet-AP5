@@ -39,7 +39,7 @@
 			return '<script src="' . $file . '"></script>';
 		}
 
-		public function image($name, $attributes = array('alt' => ''))
+		public function image($name, $attributes = array('alt' => 'image'))
 		{
 			if(substr($name, 0, 7) == 'http://')
 				$file = $name;
