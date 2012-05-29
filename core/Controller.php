@@ -48,11 +48,22 @@
 			if(empty($this->$component))
 			{
 				$name = ucfirst($component);
-				$file = ROOT . DS . 'core' . DS . 'controller' . DS . 'component' . DS . $name . 'Component.php';
+				$file = ROOT . DS . 'controller' . DS . 'component' . DS . $name . 'Component.php';
 
 				if(!is_file($file))
 				{
-					die('Le component <strong>' . $name . '</strong> n\'existe pas');
+					$file = ROOT . DS . 'core' . DS . 'controller' . DS . 'component' . DS . $name . 'Component.php';
+
+					if(!is_file($file))
+					{
+						die('Le component <strong>' . $name . '</strong> n\'existe pas');
+					}
+					else
+					{
+						require_once($file);
+						$toLoad = $name . 'Component';
+						$this->$name = new $toLoad;
+					}
 				}
 				else
 				{
@@ -76,11 +87,22 @@
 			if(empty($this->$helper))
 			{
 				$name = ucfirst($helper);
-				$file = ROOT . DS . 'core' . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
+				$file = ROOT . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
 
 				if(!is_file($file))
 				{
-					die('Le helper <strong>' . $name . '</strong> n\'existe pas');
+					$file = CORE . DS . 'view' . DS . 'helper' . DS . $name . 'Helper.php';
+
+					if(!is_file($file))
+					{
+						die('Le helper <strong>' . $name . '</strong> n\'existe pas');
+					}
+					else
+					{
+						require_once($file);
+						$toLoad = $name . 'Helper';
+						$this->$name = new $toLoad;
+					}
 				}
 				else
 				{
