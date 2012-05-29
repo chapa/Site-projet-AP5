@@ -67,9 +67,8 @@
 		{
 			if(!empty($_SESSION['user']))
 			{
-				session_destroy();
-				session_start();
-				$this->Session->setFlash('Vous êtes bien déconnecté');
+				unset($_SESSION['user']);
+				$this->Session->setFlash('Vous êtes maintenant déconnecté');
 			}
 			else
 			{
