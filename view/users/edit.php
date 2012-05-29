@@ -1,7 +1,18 @@
 <?php $title_for_layout = ($this->request->data['id'] == $_SESSION['user']['id']) ? 'Modification de votre profil' : 'Modification du profil de ' . $this->request->data['username']; ?>
 
 <div class="page-header">
-	<h1><?php echo $title_for_layout; ?></h1>
+	<h1>
+		<?php echo $title_for_layout; ?>
+		<div class="pull-right">
+			<?php
+				if($this->request->data['id'] == $_SESSION['user']['id'])
+					echo $this->Html->link(
+						'<i class="icon-remove icon-white"></i> Supprimer mon compte',
+						array('controller' => 'users', 'action' => 'supprimer'),
+						array('class' => 'btn btn-danger'));
+			?>
+		</div>
+	</h1>
 </div>
 
 <div class="row">
