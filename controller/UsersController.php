@@ -22,20 +22,27 @@
 								'password' => sha1($data['password'])
 							)
 						));
-
+						
 						if(!empty($d))
 						{
-							$this->loadHelper('Date');
-							$_SESSION['user']['id'] = $d['id'];
-							$_SESSION['user']['username'] = $d['username'];
-							$_SESSION['user']['status'] = $d['status'];
-							$_SESSION['user']['mail'] = $d['mail'];
-							$_SESSION['user']['lastlogin'] = $d['lastlogin'];
+							if($d['status']!='Banni')
+							{
+								$this->loadHelper('Date');
+								$_SESSION['user']['id'] = $d['id'];
+								$_SESSION['user']['username'] = $d['username'];
+								$_SESSION['user']['status'] = $d['status'];
+								$_SESSION['user']['mail'] = $d['mail'];
+								$_SESSION['user']['lastlogin'] = $d['lastlogin'];
 
-							$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
+								$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
 
-							$this->Session->setFlash('Vous êtes mainenant connecté. Dernière connexion le ' . strtolower($this->Date->show($d['lastlogin'], true, true, true)));
-							$this->redirect('/');
+								$this->Session->setFlash('Vous êtes mainenant connecté. Dernière connexion le ' . strtolower($this->Date->show($d['lastlogin'], true, true, true)));
+								$this->redirect('/');
+							}
+							else
+							{
+								$this->Session->setFlash('Désoler vous avez été banni', 'error');
+							}
 						}
 						else
 						{
@@ -133,6 +140,7 @@
 				$nbMembres = $this->User->findFirst(array(
 					'fields' => 'COUNT(*)'
 				));
+				/*
 				$membres = $this->User->find(array(
 					'fields' => 'id, username, mail, status, count(serie_id) nbseries',
 					'tables' => 'users, watch',
@@ -140,7 +148,24 @@
 					'group' => 'id,username,mail,status',
 					'order' => 'status DESC, id'
 				));
-				debug($membres);
+				*/
+				$membres = $this->User->find(array(
+					'fields' => 'id, username, mail, status ',
+					'tables' => 'users',
+					'order' => 'status DESC, id'
+				));
+				foreach($membres as $k => $v) {
+					$d=$this->User->find(array(
+						'fields' => 'count(*) nbseries ',
+						'tables' => 'watch',
+						'conditions' => array('user_id' => $membres[$k]['id']),
+							
+						
+					));
+					
+					$membres[$k]['nbseries']=$d[0]['nbseries'];
+				}
+				//debug($membres);
 				$this->set(array(
 					'nbMembres' => $nbMembres['count'],
 					'membres' => $membres
@@ -166,13 +191,14 @@
 					
 					if($this->User->validate($data, 'signup'))
 					{
-						
-						
 
-
+						debug($data);
 						$this->User->save($data); 
 						$this->Session->setFlash('Votre compte a été créer');
-						//$this->redirect();
+						/* ICI AUSSI, 403 ? */
+						
+						$this->redirect(array('action' => 'login'));
+
 					}
 					else
 					{
@@ -185,6 +211,11 @@
 				
 
 				}
+			}
+			else
+			{
+				$this->Session->setFlash('Vous êtes déjà connecté', 'warning');
+				$this->redirect('/');
 			}
 		}
 		public function profil ($id=0)
@@ -255,6 +286,73 @@
 					));
 					
 				}
+
+			}
+			else
+			{
+			/* ICI AUSSI, 403 ? */
+				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
+				$this->redirect(array('action' => 'login'));
 			}
 		}
+		public function ban ($action,$id)
+		{
+			if ($action==1)
+			{
+			$this->User->update(array(
+				'fields' => array('status' => 'Banni'),
+				
+				'conditions' => array('id' => $id)
+					));
+			$this->Session->setFlash('l\'utilisateur a été banni');
+			}
+			if ($action==0)
+			{
+				$this->User->update(array(
+				'fields' => array('status' => 'Membre'),
+				
+				'conditions' => array('id' => $id)
+					));
+				$this->Session->setFlash('l\'utilisateur a été débanni');
+			}
+			$this->redirect(array('action' => 'liste'));
+
+		}
+		public function admin ($action,$id)
+		{
+			if ($action==1)
+			{
+			$this->User->update(array(
+				'fields' => array('status' => 'Administrateur'),
+				
+				'conditions' => array('id' => $id)
+					));
+				$this->Session->setFlash('l\'utilisateur a été gradé');
+			}
+			if ($action==0)
+			{
+				$this->User->update(array(
+				'fields' => array('status' => 'Membre'),
+				
+				'conditions' => array('id' => $id)
+					));
+				$this->Session->setFlash('l\'utilisateur a été dégradé');
+			}
+			$this->redirect(array('action' => 'liste'));
+
+		}
+		public function supprimer()
+		{
+			if(!empty($_SESSION))
+			{
+				$this->User->delete(array(
+				'users' => $_SESSION['id']
+					));
+			}
+			else{
+				$this->Session->setFlash('Vous n\' êtes pas connecté', 'error');
+			}
+		}
+
+		
 	}
