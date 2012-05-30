@@ -11,6 +11,7 @@
 				if(!empty($this->request->data['search']))
 				{
 					$this->AlloSearch->load('http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&q=' . $this->request->data['search'] . '&filter=tvseries');
+					debug($this->AlloSearch->getInfos());
 					$this->set('series', $this->AlloSearch->getInfos());
 				}
 			}
@@ -20,7 +21,60 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
+		public function add($id_serie)
+		{
+			
 
+			if(!empty($_SESSION['user']))
+			{
+				$temp=$this->Serie->table;
+				$d=$this->Serie->find(array(
+						'fields' => 'id ',
+						'tables' => 'series',
+						'conditions' => array('id' => $id_serie)
+					));
+				
+				
+					debug($d);
+				if (!empty($d))
+				{
+					$d=$this->Serie->find(array(
+						'fields' => 'user_id ',
+						'tables' => 'watch',
+						'conditions' => array('user_id' => $_SESSION['user']['id'],
+												'serie_id'=> $id_serie)
+					));
+
+					if (empty($d))
+					{
+						$this->Serie->table='Watch';
+						$this->Serie->save(array(
+							'user_id'=> $_SESSION['user']['id'],
+							'serie_id'=> $id_serie
+							));
+						$this->Session->setFlash('La série a bien été enregistrer');
+						$this->redirect(array('action'=>'liste'));
+					}
+					else
+					{
+						$this->Session->setFlash('Vous régardé déja cette série!');
+						$this->redirect(array('action'=>'search'));
+					}
+				}
+				else
+				{
+					$this->Session->setFlash('Désoler la série n\'est pas dans la base');
+					$this->redirect(array('action'=>'search'));
+				}
+
+			}
+			Else
+			{
+				
+				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+			}
+		}
 		public function liste($id = 0)
 		{
 			if(!empty($_SESSION['user']))
