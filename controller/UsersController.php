@@ -81,13 +81,19 @@
 		{
 			if(!empty($_SESSION['user']))
 			{
+				if(empty($id))
+					$id = $_SESSION['user']['id'];
+
 				$d = $this->User->findFirst(array(
 					'fields' => 'id',
 					'conditions' => array('id' => (int) $id)
 				));
 
 				if(empty($d))
-					$id = $_SESSION['user']['id'];
+				{
+					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('action' => 'liste'), 404);
+				}
 
 				if($id != $_SESSION['user']['id'] AND $_SESSION['user']['status'] != 'Administrateur')
 				{
@@ -209,13 +215,19 @@
 		{
 			if(!empty($_SESSION['user'])) // l'utilisateur doit etre connecter pour voir les profils
 			{
+				if(empty($id))
+					$id = $_SESSION['user']['id'];
+
 				$d = $this->User->findFirst(array(
 					'fields' => 'id',
 					'conditions' => array('id' => (int) $id)
 				));
 
 				if(empty($d))
-					$id = $_SESSION['user']['id'];
+				{
+					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('action' => 'liste'), 404);
+				}
 
 				$d = $this->User->findFirst(array(
 					'fields' => 'id, username, mail, status',
