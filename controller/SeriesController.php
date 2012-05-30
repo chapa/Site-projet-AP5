@@ -46,6 +46,7 @@
 					$series[$k]['progression'] = empty($series[$k]['progression']) ? 0 : current($series[$k]['progression']);
 				}
 
+				$this->loadHelper('Text');
 				$this->set('series', $series);
 			}
 			else
