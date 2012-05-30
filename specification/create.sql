@@ -76,13 +76,34 @@ CREATE TABLE Watch
 	foreign key (serie_id) references Series(id)
 );
 
-CREATE TABLE Watched
+CREATE TABLE EpisodesWatched
 (
 	user_id					integer,
 	episode_id				integer,
-	watched					boolean,
 
-	primary key (episode_id, user_id),
+	primary key (user_id, episode_id),
 	foreign key (user_id) references Users(id),
 	foreign key (episode_id) references Episodes(id)
+);
+
+CREATE TABLE SeasonsWatched
+(
+	user_id					integer,
+	season_id				integer,
+	progression				numeric(3)			CHECK (progression >= 0 AND progression <= 100) DEFAULT 0,
+
+	primary key (user_id, season_id),
+	foreign key (user_id) references Users(id),
+	foreign key (season_id) references Seasons(id)
+);
+
+CREATE TABLE SeriesWatched
+(
+	user_id					integer,
+	serie_id				integer,
+	progression				numeric(3)			CHECK (progression >= 0 AND progression <= 100) DEFAULT 0,
+
+	primary key (user_id, serie_id),
+	foreign key (user_id) references Users(id),
+	foreign key (serie_id) references Series(id)
 );
