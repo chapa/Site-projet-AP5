@@ -214,7 +214,7 @@
 					
 				$d['nbwatched'] = current($this->User->findFirst(array( //nombre d'episode vus
 					'fields' => 'count(*)',
-					'tables' => 'watched',
+					'tables' => 'episodesWatched',
 					'conditions' => array('user_id' => $id)
 				)));
 				
