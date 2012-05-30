@@ -1,8 +1,12 @@
-<?php $title_for_layout = 'Mes séries'; ?>
+<?php $title_for_layout = (isset($this->request->params[0]) AND $this->request->params[0] != $_SESSION['user']['id']) ? 'Séries de ' . $username : 'Mes séries'; ?>
 
 <div class="hero-unit">
 	<h1><?php echo $title_for_layout; ?></h1>
-	<p>Vous trouverez ici toutes les séries que vous avez ajouté</p>
+	<?php if(isset($this->request->params[0]) AND $this->request->params[0] != $_SESSION['user']['id']) : ?>
+		<p>Vous trouverez ici toutes les séries que <?php echo $username; ?> a ajouté</p>
+	<?php else : ?>
+		<p>Vous trouverez ici toutes les séries que vous avez ajouté</p>
+	<?php endif; ?>
 </div>
 
 <?php foreach ($series as $v):

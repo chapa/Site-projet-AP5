@@ -17,7 +17,7 @@
 			else
 			{
 				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
-				$this->redirect(array('controller' => 'users', 'action' => 'login'));
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
 
@@ -25,14 +25,21 @@
 		{
 			if(!empty($_SESSION['user']))
 			{
+				if(empty($id))
+					$id = $_SESSION['user']['id'];
+
 				$d = $this->Serie->findFirst(array(
-					'fields' => 'id',
+					'fields' => 'username',
 					'tables' => 'users',
 					'conditions' => array('id' => (int) $id)
 				));
+				$this->set('username', $d['username']);
 
 				if(empty($d))
-					$id = $_SESSION['user']['id'];
+				{
+					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('controller' => 'users', 'action' => 'liste'), 404);
+				}
 
 				$d = $this->Serie->find(array(
 					'fields' => 'serie_id',
@@ -61,7 +68,7 @@
 			else
 			{
 				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
-				$this->redirect(array('controller' => 'users', 'action' => 'login'));
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
 	}

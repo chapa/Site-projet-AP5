@@ -23,7 +23,7 @@
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'liste') ? ' class = active' : '' ?>>
+								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'liste' AND (isset($this->request->params[0]) AND $this->request->params[0] == $_SESSION['user']['id'] OR !isset($this->request->params[0]))) ? ' class = active' : '' ?>>
 									<?php echo $this->Html->link('Mes séries', array('controller' => 'series', 'action' => 'liste')); ?>
 								</li>
 								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'search') ? ' class = active' : '' ?>>
