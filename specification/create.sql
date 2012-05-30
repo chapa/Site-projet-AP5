@@ -3,7 +3,6 @@ CREATE TYPE t_status AS ENUM ('Banni', 'Membre', 'Administrateur');
 CREATE TABLE Series
 (
 	id 						integer,
-	slug					varchar(255),
 	title					varchar(255),
 	originalTitle			varchar(255),
 	synopsis				text,

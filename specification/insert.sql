@@ -1,9 +1,9 @@
 SET client_encoding = 'UTF8';
 
 -- Series(id, slug, title, originalTitle, synopsis, nbSeasons, nbEpisodes, creators, actors, yearstart, yearend, mark, formatTime, type, nationality, nbwatched)
-INSERT INTO Series VALUES (3247, 'the-big-bang-theory', 'The Big Bang Theory', 'The Big Bang Theory', 'Leonard et Sheldon pourraient vous dire tout ce que vous voudriez savoir à propos de la physique quantique. Mais ils seraient bien incapables de vous expliquer quoi que ce soit sur la vie , le quotidien ou les relations humaines... Mais tout va changer avec l''arrivée de la superbe Penny, leur voisine. Ce petit bout de femme, scénariste à ses heures et serveuse pour le beurre, va devenir leur professeur de vie !', 5, 111, 'Chuck Lorre, Bill Prady', 'Johnny Galecki, Jim Parsons, Kaley Cuoco, Simon Helberg, Kunal Nayyar', 2007, 0, 4.0, 22, 'Comédie', 'U.S.A.', 0);
-INSERT INTO Series VALUES (876, 'eureka', 'Eureka', 'Eureka', 'Depuis des années le gouvernement invite les génies du monde entier à venir s''installer dans la petite ville d''Eureka, où la vie s''écoule doucement entre innovations brillantes et chaos. En accidentant sa voiture et en se retrouvant coincé dans la ville, le marshall Jack Carter se voit embarqué dans une histoire qui le dépasse.', 5, 79, 'Andrew Cosby, James Paglia', 'Colin Ferguson, Salli Richardson, Joe Morton, Erica Cerra, Neil Grayston', 2006, 0, 3.2, 42, 'Comédie, Drame, Fantastique', 'U.S.A.', 0);
-INSERT INTO Series VALUES (3213, 'chuck', 'Chuck', 'Chuck', 'Employé dans une boutique de matériel informatique, Chuck Bartowski est propulsé du jour au lendemain dans le monde de l''espionnage, sa vie ennuyeuse laissant la place aux émotions fortes. Son cerveau renfermant, bien malgré lui, une base de données contenant des secrets gouvernementaux, la NSA et la CIA, soucieuses de protéger ces informations, envoient les agents John Casey et Sarah Walker pour veiller sur sa sécurité. Les informations qu''il détient nécessitent sa participation à de périlleuses missions, le confrontant à de multiples dangers. Tout ça sous le nez de son meilleur ami, Morgan, de sa soeur, Ellie, et de ses collègues de travail, qui ne se doutent de rien...', 5, 91, 'Josh Schwartz, Chris Fedak', 'Zachary Levi, Yvonne Strahovski, Joshua Gomez, Adam Baldwin, Sarah Lancaster', 2007, 2012, 3.7, 42, 'Comédie, Espionnage, Action', 'U.S.A.', 0);
+INSERT INTO Series VALUES (3247, 'The Big Bang Theory', 'The Big Bang Theory', 'Leonard et Sheldon pourraient vous dire tout ce que vous voudriez savoir à propos de la physique quantique. Mais ils seraient bien incapables de vous expliquer quoi que ce soit sur la vie , le quotidien ou les relations humaines... Mais tout va changer avec l''arrivée de la superbe Penny, leur voisine. Ce petit bout de femme, scénariste à ses heures et serveuse pour le beurre, va devenir leur professeur de vie !', 5, 111, 'Chuck Lorre, Bill Prady', 'Johnny Galecki, Jim Parsons, Kaley Cuoco, Simon Helberg, Kunal Nayyar', 2007, 0, 4.0, 22, 'Comédie', 'U.S.A.', 0);
+INSERT INTO Series VALUES (876, 'Eureka', 'Eureka', 'Depuis des années le gouvernement invite les génies du monde entier à venir s''installer dans la petite ville d''Eureka, où la vie s''écoule doucement entre innovations brillantes et chaos. En accidentant sa voiture et en se retrouvant coincé dans la ville, le marshall Jack Carter se voit embarqué dans une histoire qui le dépasse.', 5, 79, 'Andrew Cosby, James Paglia', 'Colin Ferguson, Salli Richardson, Joe Morton, Erica Cerra, Neil Grayston', 2006, 0, 3.2, 42, 'Comédie, Drame, Fantastique', 'U.S.A.', 0);
+INSERT INTO Series VALUES (3213, 'Chuck', 'Chuck', 'Employé dans une boutique de matériel informatique, Chuck Bartowski est propulsé du jour au lendemain dans le monde de l''espionnage, sa vie ennuyeuse laissant la place aux émotions fortes. Son cerveau renfermant, bien malgré lui, une base de données contenant des secrets gouvernementaux, la NSA et la CIA, soucieuses de protéger ces informations, envoient les agents John Casey et Sarah Walker pour veiller sur sa sécurité. Les informations qu''il détient nécessitent sa participation à de périlleuses missions, le confrontant à de multiples dangers. Tout ça sous le nez de son meilleur ami, Morgan, de sa soeur, Ellie, et de ses collègues de travail, qui ne se doutent de rien...', 5, 91, 'Josh Schwartz, Chris Fedak', 'Zachary Levi, Yvonne Strahovski, Joshua Gomez, Adam Baldwin, Sarah Lancaster', 2007, 2012, 3.7, 42, 'Comédie, Espionnage, Action', 'U.S.A.', 0);
 
 -- Seasons(id, num, nbEpisodes, yearstart, yearend, mark, nbwatched, serie_id)
 INSERT INTO Seasons VALUES (20041, 5, 24, 2011, 2012, 5.0, 0, 3247);
@@ -335,3 +335,19 @@ INSERT INTO Watch VALUES (1, 3247);
 INSERT INTO Watch VALUES (1, 876);
 INSERT INTO Watch VALUES (2, 876);
 INSERT INTO Watch VALUES (2, 3213);
+
+-- EpisodesWatched(user_id, episode_id)
+INSERT INTO EpisodesWatched VALUES (1, 453589);
+INSERT INTO EpisodesWatched VALUES (1, 456792);
+INSERT INTO EpisodesWatched VALUES (1, 457938);
+INSERT INTO EpisodesWatched VALUES (1, 457939);
+INSERT INTO EpisodesWatched VALUES (1, 38878);
+INSERT INTO EpisodesWatched VALUES (1, 43007);
+INSERT INTO EpisodesWatched VALUES (1, 43008);
+INSERT INTO EpisodesWatched VALUES (1, 287161);
+INSERT INTO EpisodesWatched VALUES (1, 293609);
+INSERT INTO EpisodesWatched VALUES (1, 293610);
+INSERT INTO EpisodesWatched VALUES (2, 38878);
+INSERT INTO EpisodesWatched VALUES (2, 43007);
+INSERT INTO EpisodesWatched VALUES (2, 43008);
+INSERT INTO EpisodesWatched VALUES (2, 43009);
