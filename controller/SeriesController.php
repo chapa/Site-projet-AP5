@@ -20,4 +20,32 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'login'));
 			}
 		}
+
+		public function liste()
+		{
+			if(!empty($_SESSION['user']))
+			{
+				$d = $this->Serie->find(array(
+					'fields' => 'serie_id',
+					'tables' => 'watch',
+					'conditions' => array('user_id' => $_SESSION['user']['id'])
+				));
+
+				$series = array();
+				foreach($d as $v)
+				{
+					$series[] = $this->Serie->findFirst(array(
+						'fields' => 'id, title, synopsis, nbseasons, nbepisodes',
+						'conditions' => array('id' => $v['serie_id'])
+					));
+				}
+
+				$this->set('series', $series);
+			}
+			else
+			{
+				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+				$this->redirect(array('controller' => 'users', 'action' => 'login'));
+			}
+		}
 	}
