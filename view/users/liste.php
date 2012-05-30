@@ -45,7 +45,7 @@
 						<?php
 							echo $this->Html->link(
 								$v['nbseries'],
-								array('controller' => 'users', 'action' => 'series', $v['id']),
+								array('controller' => 'series', 'action' => 'liste', $v['id']),
 								array('rel' => 'tooltip', 'data-original-title' => 'Afficher les séries suivies par ' . $v['username'])
 							);
 						?>

@@ -81,7 +81,12 @@
 		{
 			if(!empty($_SESSION['user']))
 			{
-				if($id == 0)
+				$d = $this->User->findFirst(array(
+					'fields' => 'id',
+					'conditions' => array('id' => (int) $id)
+				));
+
+				if(empty($d))
 					$id = $_SESSION['user']['id'];
 
 				if($id != $_SESSION['user']['id'] AND $_SESSION['user']['status'] != 'Administrateur')
@@ -169,7 +174,7 @@
 			}
 		}
 
-		public function signup ()
+		public function signup()
 		{
 			if(empty($_SESSION['user']))
 			{
@@ -204,7 +209,12 @@
 		{
 			if(!empty($_SESSION['user'])) // l'utilisateur doit etre connecter pour voir les profils
 			{
-				if($id == 0) // affiche son profil
+				$d = $this->User->findFirst(array(
+					'fields' => 'id',
+					'conditions' => array('id' => (int) $id)
+				));
+
+				if(empty($d))
 					$id = $_SESSION['user']['id'];
 
 				$d = $this->User->findFirst(array(

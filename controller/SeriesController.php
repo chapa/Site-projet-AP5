@@ -21,14 +21,23 @@
 			}
 		}
 
-		public function liste()
+		public function liste($id = 0)
 		{
 			if(!empty($_SESSION['user']))
 			{
+				$d = $this->Serie->findFirst(array(
+					'fields' => 'id',
+					'tables' => 'users',
+					'conditions' => array('id' => (int) $id)
+				));
+
+				if(empty($d))
+					$id = $_SESSION['user']['id'];
+
 				$d = $this->Serie->find(array(
 					'fields' => 'serie_id',
 					'tables' => 'watch',
-					'conditions' => array('user_id' => $_SESSION['user']['id'])
+					'conditions' => array('user_id' => $id)
 				));
 
 				$series = array();
@@ -41,7 +50,7 @@
 					$series[$k]['progression'] = $this->Serie->findFirst(array(
 						'fields' => 'progression',
 						'tables' => 'seriesWatched',
-						'conditions' => array('user_id' => $_SESSION['user']['id'], 'serie_id' => $v['serie_id'])
+						'conditions' => array('user_id' => $id, 'serie_id' => $v['serie_id'])
 					));
 					$series[$k]['progression'] = empty($series[$k]['progression']) ? 0 : current($series[$k]['progression']);
 				}
