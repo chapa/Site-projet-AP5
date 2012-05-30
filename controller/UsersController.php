@@ -37,7 +37,7 @@
 								$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
 
 								$this->Session->setFlash('Vous êtes mainenant connecté. Dernière connexion le ' . strtolower($this->Date->show($d['lastlogin'], true, true, true)));
-								$this->redirect('/');
+								$this->redirect('/', 200);
 							}
 							else
 							{
@@ -59,7 +59,7 @@
 			else
 			{
 				$this->Session->setFlash('Vous êtes déjà connecté', 'warning');
-				$this->redirect('/');
+				$this->redirect('/', 403);
 			}
 		}
 
@@ -74,7 +74,7 @@
 			{
 				$this->Session->setFlash('Vous n\'êtes pas encore connecté', 'warning');
 			}
-			$this->redirect('/');
+			$this->redirect('/', 200);
 		}
 
 		public function edit($id = 0)
@@ -92,7 +92,7 @@
 				if($id != $_SESSION['user']['id'] AND $_SESSION['user']['status'] != 'Administrateur')
 				{
 					$this->Session->setFlash('Vous ne pouvez pas modifier le profil d\'un autre membre', 'error');
-					$this->redirect(array('action' => 'edit'));
+					$this->redirect(array('action' => 'edit'), 403);
 				}
 				else
 				{
@@ -110,7 +110,7 @@
 						{
 							$this->User->save($data);
 							$this->Session->setFlash('Vos modifications ont bien étés enregistrées');
-							$this->redirect();
+							$this->redirect(array(), 200);
 						}
 						else
 						{
@@ -133,7 +133,7 @@
 			{
 				/* FAIRE PEUT ETRE UNE PAGE 403 ICI, POUR DIRE QU'ON A PAS LE DROIT D'Y ALLER */
 				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
-				$this->redirect(array('action' => 'login'));
+				$this->redirect(array('action' => 'login'), 403);
 			}
 		}
 
@@ -170,7 +170,7 @@
 			{
 				/* ICI AUSSI, 403 ? */
 				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
-				$this->redirect(array('action' => 'login'));
+				$this->redirect(array('action' => 'login'), 403);
 			}
 		}
 
@@ -189,7 +189,7 @@
 						debug($data);
 						$this->User->save($data); 
 						$this->Session->setFlash('Vous êtes maintenant inscrit(e) et pouvez vous connecter');
-						$this->redirect(array('action' => 'login'));
+						$this->redirect(array('action' => 'login'), 200);
 					}
 					else
 					{
@@ -201,7 +201,7 @@
 			else
 			{
 				$this->Session->setFlash('Vous êtes déjà connecté', 'warning');
-				$this->redirect('/');
+				$this->redirect('/', 403);
 			}
 		}
 
@@ -240,7 +240,7 @@
 			{
 				/* ICI AUSSI, 403 ? */
 				$this->Session->setFlash('Vous ne pouvez pas accéder à cette page car vous n\'êtes pas connecté', 'error');
-				$this->redirect(array('action' => 'login'));
+				$this->redirect(array('action' => 'login'), 403);
 			}
 		}
 
@@ -265,18 +265,19 @@
 						$this->User->save(array('id' => $id, 'status' => 'Membre'));
 						$this->Session->setFlash('L\'utilisateur ' . $d['username'] . ' a bien été banni');
 					}
+					$this->redirect(array('action' => 'liste'), 200);
 				}
 				else
 				{
 					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('action' => 'liste'), 404);
 				}
 			}
 			else
 			{
 				$this->Session->setFlash('Vous n\'avez pas les droits nécessaires pour faire cette action', 'error');
+				$this->redirect(array('action' => 'liste'), 403);
 			}
-
-			$this->redirect(array('action' => 'liste'));
 		}
 
 		public function admin($action, $id)
@@ -300,18 +301,19 @@
 						$this->User->save(array('id' => $id, 'status' => 'Membre'));
 						$this->Session->setFlash('L\'utilisateur ' . $d['username'] . ' a bien été banni');
 					}
+					$this->redirect(array('action' => 'liste'), 200);
 				}
 				else
 				{
 					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('action' => 'liste'), 404);
 				}
 			}
 			else
 			{
 				$this->Session->setFlash('Vous n\'avez pas les droits nécessaires pour faire cette action', 'error');
+				$this->redirect(array('action' => 'liste'), 403);
 			}
-
-			$this->redirect(array('action' => 'liste'));
 		}
 
 		public function supprimer()
@@ -321,12 +323,12 @@
 				$this->User->delete(array('id' => $_SESSION['user']['id']));
 
 				$this->Session->setFlash('Votre compte a bien été supprimé');
-				$this->redirect(array('action' => 'logout'));
+				$this->redirect(array('action' => 'logout'), 200);
 			}
 			else
 			{
 				$this->Session->setFlash('Vous n\'êtes pas connecté', 'error');
-				$this->redirect(array('action' => 'login'));
+				$this->redirect(array('action' => 'login'), 403);
 			}
 		}
 	}
