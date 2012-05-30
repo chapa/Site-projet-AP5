@@ -32,12 +32,18 @@
 				));
 
 				$series = array();
-				foreach($d as $v)
+				foreach($d as $k => $v)
 				{
-					$series[] = $this->Serie->findFirst(array(
+					$series[$k] = $this->Serie->findFirst(array(
 						'fields' => 'id, title, synopsis, nbseasons, nbepisodes',
 						'conditions' => array('id' => $v['serie_id'])
 					));
+					$series[$k]['progression'] = $this->Serie->findFirst(array(
+						'fields' => 'progression',
+						'tables' => 'seriesWatched',
+						'conditions' => array('user_id' => $_SESSION['user']['id'], 'serie_id' => $v['serie_id'])
+					));
+					$series[$k]['progression'] = empty($series[$k]['progression']) ? 0 : current($series[$k]['progression']);
 				}
 
 				$this->set('series', $series);

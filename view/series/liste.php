@@ -27,3 +27,5 @@
 	</section>
 
 <?php endforeach ?>
+
+<?php debug($series); ?>
