@@ -28,11 +28,12 @@
 							if($d['status']!='Banni')
 							{
 								$this->loadHelper('Date');
-								$_SESSION['user']['id'] = $d['id'];
-								$_SESSION['user']['username'] = $d['username'];
-								$_SESSION['user']['status'] = $d['status'];
-								$_SESSION['user']['mail'] = $d['mail'];
-								$_SESSION['user']['lastlogin'] = $d['lastlogin'];
+								
+								$_SESSION['user'] = array(
+									'id' => $d['id'],
+									'username' => $d['username'],
+									'status' => $d['status']
+								);
 
 								$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
 
