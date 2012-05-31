@@ -64,18 +64,24 @@ EXECUTE PROCEDURE episodeNotWatched();
 CREATE FUNCTION seasonWatched() RETURNS trigger AS'
 DECLARE
 	x float;
+	y float;
+	z float;
 BEGIN
 
-	x := (	SELECT AVG(progression) FROM SeasonsWatched
+	x := (	SELECT SUM(progression) FROM SeasonsWatched
 			WHERE user_id = new.user_id AND season_id IN (	SELECT id FROM Seasons
 															WHERE serie_id = (	SELECT serie_id FROM Seasons
 																				WHERE id = new.season_id)));
+	y := (	SELECT COUNT(*) FROM Seasons
+			WHERE serie_id = (	SELECT serie_id FROM Seasons
+								WHERE id = new.season_id));
+	z := x / y;
 
 	IF (SELECT COUNT(*) FROM SeriesWatched
 		WHERE user_id = new.user_id AND serie_id = (SELECT serie_id FROM Seasons WHERE id = new.season_id)) = 0 then
-		INSERT INTO SeriesWatched VALUES (new.user_id, (SELECT serie_id FROM Seasons WHERE id = new.season_id), x);
+		INSERT INTO SeriesWatched VALUES (new.user_id, (SELECT serie_id FROM Seasons WHERE id = new.season_id), z);
 	ELSE
-		UPDATE SeriesWatched SET progression = x
+		UPDATE SeriesWatched SET progression = z
 		WHERE user_id = new.user_id AND serie_id = (SELECT serie_id FROM Seasons WHERE id = new.season_id);
 	END IF;
 
