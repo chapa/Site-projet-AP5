@@ -97,7 +97,11 @@ BEGIN
 	
 	DELETE FROM Watch
 	WHERE user_id = old.id;
-	DELETE FROM Watched
+	DELETE FROM EpisodesWatched
+	WHERE user_id = old.id;
+	DELETE FROM SeasonsWatched
+	WHERE user_id = old.id;
+	DELETE FROM SeriesWatched
 	WHERE user_id = old.id;
 
 	RETURN old;
