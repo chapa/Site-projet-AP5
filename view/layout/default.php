@@ -5,6 +5,7 @@
 		<?php echo $this->Html->charset(); ?>
 		<?php echo $this->Html->css('bootstrap'); ?>
 		<?php echo $this->Html->css('responsive'); ?>
+		<?php echo $this->Html->css('jrating'); ?>
 		<title><?php echo $title_for_layout; ?></title>
 	</head>
 
@@ -49,6 +50,7 @@
 
 		<?php
 			echo $this->Html->js('jquery');
+			echo $this->Html->js('jrating');
 			echo $this->Html->js('bootstrap-transition');
 			echo $this->Html->js('bootstrap-alert');
 			echo $this->Html->js('bootstrap-modal');
