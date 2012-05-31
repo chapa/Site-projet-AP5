@@ -79,7 +79,7 @@
 			<div class="form-actions centre">
 				<p>La série que vous recherchez n'est pas dans cette liste ?</p>
 				<p>
-					<a href="" class="btn ">Refaire une recherche</a>
+					<?php echo $this->Html->link('Refaire une recherche', array('controller' => 'series', 'action' => 'search'), array('class' => 'btn')) ?>
 				</p>
 			</div>
 		</section> <?php

@@ -11,7 +11,6 @@
 				if(!empty($this->request->data['search']))
 				{
 					$this->AlloSearch->load('http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&q=' . $this->request->data['search'] . '&filter=tvseries');
-					debug($this->AlloSearch->getInfos());
 					$this->set('series', $this->AlloSearch->getInfos());
 				}
 			}
@@ -21,60 +20,55 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
-		public function add($id_serie)
-		{
-			
 
+		public function add($id)
+		{
 			if(!empty($_SESSION['user']))
 			{
-				$temp=$this->Serie->table;
-				$d=$this->Serie->find(array(
-						'fields' => 'id ',
-						'tables' => 'series',
-						'conditions' => array('id' => $id_serie)
-					));
+				$d = $this->Serie->find(array(
+					'fields' => 'id ',
+					'tables' => 'series',
+					'conditions' => array('id' => $id)
+				));
 				
-				
-					debug($d);
 				if (!empty($d))
 				{
 					$d=$this->Serie->find(array(
 						'fields' => 'user_id ',
 						'tables' => 'watch',
-						'conditions' => array('user_id' => $_SESSION['user']['id'],
-												'serie_id'=> $id_serie)
+						'conditions' => array('user_id' => $_SESSION['user']['id'], 'serie_id'=> $id)
 					));
 
 					if (empty($d))
 					{
-						$this->Serie->table='Watch';
+						$this->Serie->table = 'Watch';
 						$this->Serie->save(array(
 							'user_id'=> $_SESSION['user']['id'],
-							'serie_id'=> $id_serie
-							));
-						$this->Session->setFlash('La série a bien été enregistrer');
-						$this->redirect(array('action'=>'liste'));
+							'serie_id'=> $id
+						));
+						$this->Session->setFlash('La série a bien été enregistrée');
+						$this->redirect(array('action' => 'serie', $id), 200);
 					}
 					else
 					{
-						$this->Session->setFlash('Vous régardé déja cette série!');
-						$this->redirect(array('action'=>'search'));
+						$this->Session->setFlash('Vous régardez déjà cette série', 'warning');
+						$this->redirect(array('action' => 'serie', $id), 200);
 					}
 				}
 				else
 				{
-					$this->Session->setFlash('Désoler la série n\'est pas dans la base');
-					$this->redirect(array('action'=>'search'));
+					$this->Session->setFlash('Désolé mais la série n\'est pas dans la base');
+					$this->redirect(array('action' => 'search'), 200);
 				}
 
 			}
-			Else
+			else
 			{
-				
 				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
 				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
+		
 		public function liste($id = 0)
 		{
 			if(!empty($_SESSION['user']))
