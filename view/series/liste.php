@@ -1,4 +1,8 @@
-<?php $title_for_layout = (isset($this->request->params[0]) AND $this->request->params[0] != $_SESSION['user']['id']) ? 'Séries de ' . $username : 'Mes séries'; ?>
+<?php
+	$title_for_layout = (isset($this->request->params[0]) AND $this->request->params[0] != $_SESSION['user']['id']) ? 'Séries de ' . $username : 'Mes séries';
+	if($user_id == $_SESSION['user']['id'])
+		$user_id = NULL;
+?>
 
 <div class="hero-unit">
 	<h1><?php echo $title_for_layout; ?></h1>
@@ -27,7 +31,7 @@
 						<div class="pull-right">
 							<?php echo $this->Html->link(
 								'<i class="icon-eye-open"></i> Afficher cette série',
-								array('controller' => 'series', 'action' => 'serie', $v['id']),
+								array('controller' => 'series', 'action' => 'serie', $v['id'], $user_id),
 								array('class' => 'btn')); ?>
 						</div>
 					</h1>
