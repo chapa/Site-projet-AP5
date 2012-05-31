@@ -111,7 +111,88 @@
 				}
 
 				$this->loadHelper('Text');
-				$this->set('series', $series);
+				$this->set(array(
+					'series' => $series,
+					'user_id' => $id
+				));
+			}
+			else
+			{
+				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+			}
+		}
+
+		public function serie($id = 0, $user_id = 0)
+		{
+			if(!empty($_SESSION['user']))
+			{
+				if(empty($user_id))
+					$user_id = $_SESSION['user']['id'];
+
+				$d = $this->Serie->findFirst(array(
+					'fields' => 'username',
+					'tables' => 'users',
+					'conditions' => array('id' => (int) $user_id)
+				));
+				$this->set('username', $d['username']);
+				if(empty($d))
+				{
+					$this->Session->setFlash('L\'utilisateur n\'existe pas', 'error');
+					$this->redirect(array('controller' => 'users', 'action' => 'liste'), 404);
+				}
+
+				$d = $this->Serie->findFirst(array(
+					'tables' => 'Watch',
+					'conditions' => array('user_id' => $user_id, 'serie_id' => $id)
+				));
+				if(empty($d))
+				{
+					$this->Session->setFlash('L\'utilisateur ne suit pas cette série', 'error');
+					$this->redirect(array('controller' => 'series', 'action' => 'liste', $user_id), 404);
+				}
+
+				$serie = $this->Serie->findFirst(array(
+					'conditions' => array('id' => $id)
+				));
+
+				$serie['actors'] = explode(', ', $serie['actors']);
+				$d = $this->Serie->findFirst(array(
+					'fields' => 'progression',
+					'tables' => 'SeriesWatched',
+					'conditions' => array('user_id' => $user_id, 'serie_id' => $id)
+				));
+				$serie['progression'] = !empty($d) ? current($d) : 0;
+
+				$seasons = $this->Serie->find(array(
+					'tables' => 'seasons',
+					'conditions' => array('serie_id' => $id),
+					'order' => 'num'
+				));
+
+				$seasonsNotWatched = $seasonsWatched = 0;
+				foreach ($seasons as $k => $v)
+				{
+					$d = $this->Serie->findFirst(array(
+						'fields' => 'progression',
+						'tables' => 'SeasonsWatched',
+						'conditions' => array('user_id' => $user_id, 'season_id' => $v['id'])
+					));
+					$seasons[$k]['progression'] = !empty($d) ? current($d) : 0;
+					
+					if($seasons[$k]['progression'] < 100)
+						$seasonsNotWatched ++;
+					else
+						$seasonsWatched ++;
+				}
+
+				$this->set(array(
+					'serie' => $serie,
+					'seasons' => $seasons,
+					'seasonsNotWatched' => $seasonsNotWatched,
+					'seasonsWatched' => $seasonsWatched,
+					'user_id' => $user_id
+				));
 			}
 			else
 			{
