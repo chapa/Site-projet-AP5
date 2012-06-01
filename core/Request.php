@@ -36,8 +36,8 @@
 
 			$params = explode('/', $this->url);
 
-			$this->controller = !empty($params[0]) ? $params[0] : 'pages';
-			$this->action = !empty($params[1]) ? $params[1] : 'index';
+			$this->controller = !empty($params[0]) ? $params[0] : 'users';
+			$this->action = !empty($params[1]) ? $params[1] : 'login';
 			$this->params = array_slice($params, 2);
 
 			foreach($this->params as $k => $v)

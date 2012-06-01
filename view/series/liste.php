@@ -33,7 +33,7 @@
 	<section class="serie">
 		<div class="row-fluid">
 			<div class="span2">
-				<?php echo $this->Html->image($image, array('alt' => 'Poster de ' . $v['title'], 'class' => 'thumbnail centre')); ?>
+				<?php echo $this->Html->image($image, array('alt' => 'Poster de ' . $v['title'], 'title' => 'Poster de ' . $v['title'], 'class' => 'thumbnail centre')); ?>
 			</div>
 			<div class="span10">
 				<div class="page-header">

@@ -7,7 +7,7 @@
 <div class="row-fluid">
 	<div class="span3">&nbsp;</div>
 	<div class="span6 offset3">
-		<?php echo $this->Html->image($image, array('class' => 'thumbnail')); ?>
+		<?php echo $this->Html->image($image, array('class' => 'thumbnail', 'title' => 'Bannière de ' . $serie['title'], 'alt' => 'Bannière de ' . $serie['title'])); ?>
 	</div>
 </div>
 

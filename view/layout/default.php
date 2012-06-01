@@ -23,12 +23,6 @@
 						</a>
 						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
-							<ul class="nav">
-								<li class="active"><a href="#">METTRE</a></li>
-								<li><a href="#">DES</a></li>
-								<li><a href="#">LIENS</a></li>
-								<li><a href="#">IÇI</a></li>
-							</ul>
 							<ul class="nav pull-right">
 								<li><?php echo $this->Html->link('S\'inscrire', array('controller' => 'users', 'action' => 'signup')) ?></li>
 								<li class="divider-vertical"></li>
@@ -44,7 +38,16 @@
 
 			<hr>
 			<footer>
-				&copy; Vincent Dimper et Mickaël Bourgier
+				Créé par 
+				<?php echo $this->Html->link('Vincent Dimper', 'mailto:vincent.dimper@tulaurajamais.com', array('rel' => 'tooltip', 'data-original-title' => 'Envoyer un mail à Vincent')); ?>
+				et
+				<?php echo $this->Html->link('Mickaël Bourgier', 'mailto:mickael.bourgier@cellelanonplus.com', array('rel' => 'tooltip', 'data-original-title' => 'Envoyer un mail à Mickaël')); ?>,
+				date de dernière mise à jour : le 1 juin 2012
+				<div class="pull-right">
+					<a href="http://validator.w3.org/check?uri=referer">
+						<img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-semantics.png" height="32" alt="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics" title="HTML5 Powered with CSS3 / Styling, Device Access, and Semantics">
+					</a>
+				</div>
 			</footer>
 		</div>
 

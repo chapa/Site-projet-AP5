@@ -93,6 +93,11 @@
 
 		public function link($text, $url = null, $attributes = array())
 		{
+			if(empty($attributes['title']) AND empty($attributes['data-original-title']))
+				$attributes['title'] = $text;
+			if(!empty($attributes['title']) AND $attributes['title'][0] == '<')
+				unset($attributes['title']);
+
 			$out = '<a href="';
 			
 			if(!empty($url))
