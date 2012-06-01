@@ -232,4 +232,67 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
+
+		public function watched($id, $value)
+		{
+			if(!empty($_SESSION['user']))
+			{
+				$value = $value ? 100 : 0;
+
+				$user_id = $_SESSION['user']['id'];
+
+				$d = $this->Serie->findFirst(array(
+					'tables' => 'Watch',
+					'conditions' => array('user_id' => $user_id, 'serie_id' => $id)
+				));
+				if(empty($d))
+				{
+					$this->Session->setFlash('Vous ne suivez pas cette série', 'error');
+					$this->redirect(array('controller' => 'series', 'action' => 'liste'), 404);
+				}
+
+				$d = $this->Serie->find(array(
+					'fields' => 'id',
+					'tables' => 'Seasons',
+					'conditions' => array('serie_id' => $id)
+				));
+				$episodes = array();
+				foreach($d as $v) {
+					$e = $this->Serie->find(array(
+						'fields' => 'id',
+						'tables' => 'episodes',
+						'conditions' => array('season_id' => $v['id'])
+					));
+					$episodes = array_merge($episodes, $e);
+				}
+
+				if($value == 100)
+				{
+					foreach ($episodes as $v) {
+						$d = $this->Serie->findFirst(array('fields' => 'episode_id', 'tables' => 'EpisodesWatched', 'conditions' => array('episode_id' => $v['id'])));
+						if(empty($d))
+							$this->Serie->query('INSERT INTO EpisodesWatched VALUES (\'' . $user_id .'\', \'' . $v['id'] . '\')');
+					}
+
+					$this->Session->setFlash('La série a bien été marquée comme vue');
+				}
+				else
+				{
+					foreach ($episodes as $v) {
+						$d = $this->Serie->findFirst(array('fields' => 'episode_id', 'tables' => 'EpisodesWatched', 'conditions' => array('episode_id' => $v['id'])));
+						if(!empty($d))
+							$this->Serie->query('DELETE FROM EpisodesWatched WHERE episode_id = \'' . $v['id'] . '\' AND user_id = \'' . $user_id . '\'');
+					}
+
+					$this->Session->setFlash('La série a bien été marquée comme non vue');
+				}
+
+				$this->redirect(array('action' => 'serie', $id));
+			}
+			else
+			{
+				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+			}
+		}
 	}

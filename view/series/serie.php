@@ -1,4 +1,5 @@
 <?php
+	$title_for_layout = $serie['title'];
 	$image = 'series' . DS . 'banners' . DS . $serie['id'] . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
 		$image = 'series' . DS . 'banners' . DS . '0.png';
@@ -255,7 +256,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme non vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, false),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], 0),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
@@ -276,7 +277,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, true),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], 1),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
