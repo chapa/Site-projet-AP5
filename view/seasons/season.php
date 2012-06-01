@@ -1,6 +1,4 @@
-	
 <?php
-
 	$title_for_layout=$serie['title'].' - Saison '.$serie['numseason'];
 	$image = 'series' . DS . 'banners' . DS . $serie_id . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
@@ -9,7 +7,7 @@
 <div class="row-fluid">
 	<div class="span3">&nbsp;</div>
 	<div class="span6 offset3">
-		<?php echo $this->Html->image($image, array('class' => 'thumbnail')); ?>
+		<?php echo $this->Html->image($image, array('class' => 'thumbnail', 'title' => 'Bannière de ' . $serie['title'], 'alt' => 'Bannière de ' . $serie['title'])); ?>
 	</div>
 </div>
 
@@ -97,7 +95,7 @@
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th></th>
+									<th class="widthActions"></th>
 									<th>#</th>
 									<th>Titre</th>
 									<th>Note</th>
@@ -187,27 +185,6 @@
 </div>
 
 <?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
-	<div class="modal hide fade" id="deleteModal">
-		<div class="modal-header">
-			<a class="close" data-dismiss="modal">&times;</a>
-			<h3>Attention</h3>
-		</div>
-		<div class="modal-body">
-			<p>
-				Êtes-vous sûr de bien vouloir supprimer cette série ?<br>
-				Toutes vos progressions seront alors supprimées.
-			</p>
-		</div>
-		<div class="modal-footer">
-			<?php echo $this->Html->link(
-				'Supprimer',
-				array('controller' => 'series', 'action' => 'delete', $serie['id']),
-				array('class' => 'btn btn-primary')
-			); ?>
-			<a class="btn" data-dismiss="modal">Annuler</a>
-		</div>
-	</div>
-
 	<div class="modal hide fade" id="notWatched">
 		<div class="modal-header">
 			<a class="close" data-dismiss="modal">&times;</a>
