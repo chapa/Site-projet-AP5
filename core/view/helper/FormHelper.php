@@ -14,7 +14,10 @@
 
 		public function create($action = NULL, $method = 'get')
 		{
-			echo '<form action="' . $this->controller->Html->url($action) . '" method="' . $method . '" class="form-horizontal">';
+			if($action)
+				echo '<form action="' . $this->controller->Html->url($action) . '" method="' . $method . '" class="form-horizontal">';
+			else
+				echo '<form method="' . $method . '" class="form-horizontal">';
 		}
 
 		public function input($label, $name, $options = array())

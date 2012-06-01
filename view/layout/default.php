@@ -39,9 +39,9 @@
 			<hr>
 			<footer>
 				Créé par 
-				<?php echo $this->Html->link('Vincent Dimper', 'mailto:vincent.dimper@tulaurajamais.com', array('rel' => 'tooltip', 'data-original-title' => 'Envoyer un mail à Vincent')); ?>
+				<?php echo $this->Html->link('Vincent Dimper', 'mailto:vincent.dimper@tulaurajamais.com', array('title' => 'Envoyer un mail à Vincent')); ?>
 				et
-				<?php echo $this->Html->link('Mickaël Bourgier', 'mailto:mickael.bourgier@cellelanonplus.com', array('rel' => 'tooltip', 'data-original-title' => 'Envoyer un mail à Mickaël')); ?>,
+				<?php echo $this->Html->link('Mickaël Bourgier', 'mailto:mickael.bourgier@cellelanonplus.com', array('title' => 'Envoyer un mail à Mickaël')); ?>,
 				date de dernière mise à jour : le 1 juin 2012
 				<div class="pull-right">
 					<a href="http://validator.w3.org/check?uri=referer">
