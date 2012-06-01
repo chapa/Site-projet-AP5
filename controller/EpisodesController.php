@@ -58,4 +58,34 @@ class EpisodesController extends AppController
 			$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 		}
 	}
+
+	public function episode($id, $user_id = 0)
+	{
+		if(!empty($_SESSION['user']))
+		{
+			if($user_id == 0)
+				$user_id = $_SESSION['user']['id'];
+
+			$d = $this->Episode->findFirst(array(
+				'fields' => 'season_id',
+				'conditions' => array('id' => $id)
+			));
+
+			if(empty($d))
+			{
+				$this->Session->setFlash('L\'épisode n\'existe pas', 'error');
+				$this->redirect(array('controller' => 'series', 'action' => 'liste'));
+			}
+			else
+			{
+				$this->Session->setFlash('Cette fonctionnalité n\'est pas disponible (pas le temps)', 'error');
+				$this->redirect(array('controller' => 'seasons', 'action' => 'season', $d['season_id'], $user_id));
+			}
+		}
+		else
+		{
+			$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+			$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+		}
+	}
 }
