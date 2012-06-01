@@ -1,2 +1,4 @@
 .htaccess
 config/Conf.php
+
+webroot/js/jrating.js
