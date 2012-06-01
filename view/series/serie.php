@@ -70,7 +70,7 @@
 						<a href="#actions" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> Actions <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<?php if($serie['progression'] == 100): ?>
-								<li><a data-toggle="modal" href="#notWatched"><i class="icon-ok"></i> Marquer comme non vue</a></li>
+								<li><a data-toggle="modal" href="#notWatched"><i class="icon-remove"></i> Marquer comme non vue</a></li>
 							<?php else: ?>
 								<li><a data-toggle="modal" href="#watched"><i class="icon-ok"></i> Marquer comme vue</a></li>
 							<?php endif ?>
@@ -255,7 +255,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme non vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, false),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], 0),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
@@ -276,7 +276,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, true),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], 1),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
