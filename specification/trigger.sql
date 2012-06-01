@@ -91,17 +91,28 @@ CREATE TRIGGER TR_seasonWatched AFTER INSERT OR UPDATE
 ON SeasonsWatched FOR EACH ROW
 EXECUTE PROCEDURE seasonWatched();
 
+	-- Supprimer une série regardé par l'utilisateur implique la suppression des avancements dans la série, ses saisons et leurs épisodes
+CREATE FUNCTION supprUserSerie() RETURNS trigger AS'
+BEGIN
+	
+	DELETE FROM EpisodesWatched
+	WHERE user_id = old.user_id;
+	DELETE FROM SeasonsWatched
+	WHERE user_id = old.user_id;
+	DELETE FROM SeriesWatched
+	WHERE user_id = old.user_id;
+
+	RETURN old;
+END;' LANGUAGE 'plpgsql';
+CREATE TRIGGER TR_supprUserSerie BEFORE DELETE
+ON Watch FOR EACH ROW
+EXECUTE PROCEDURE supprUserSerie();
+
 	-- Supprimer un utilisateur implique la suppression des séries qu'il regardait
 CREATE FUNCTION supprUser() RETURNS trigger AS'
 BEGIN
 	
 	DELETE FROM Watch
-	WHERE user_id = old.id;
-	DELETE FROM EpisodesWatched
-	WHERE user_id = old.id;
-	DELETE FROM SeasonsWatched
-	WHERE user_id = old.id;
-	DELETE FROM SeriesWatched
 	WHERE user_id = old.id;
 
 	RETURN old;

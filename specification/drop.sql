@@ -4,6 +4,8 @@ DROP TRIGGER IF EXISTS TR_episodeNotWatched ON EpisodesWatched;
 DROP FUNCTION IF EXISTS episodeNotWatched();
 DROP TRIGGER IF EXISTS TR_seasonWatched ON SeasonsWatched;
 DROP FUNCTION IF EXISTS seasonWatched();
+DROP TRIGGER IF EXISTS TR_supprUserSerie ON Watch;
+DROP FUNCTION IF EXISTS supprUserSerie();
 DROP TRIGGER IF EXISTS TR_supprUser ON Users;
 DROP FUNCTION IF EXISTS supprUser();
 
