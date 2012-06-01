@@ -77,8 +77,7 @@
 							<?php else: ?>
 								<li><a data-toggle="modal" href="#watched"><i class="icon-ok"></i> Marquer la saison comme vue</a></li>
 							<?php endif ?>
-							<li class="divider"></li>
-							<li><a data-toggle="modal" href="#deleteModal"><i class="icon-trash"></i> Supprimer cette série</a></li>
+							
 						</ul>
 					</li>
 				<?php endif; ?>
@@ -123,7 +122,7 @@
 													echo $this->Html->link(
 														'Afficher',
 														array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
-														array('class' => 'btn btn-min
+														array('class' => 'btn btn-mini')
 													);
 												}
 											?>
