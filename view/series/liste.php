@@ -13,6 +13,17 @@
 	<?php endif; ?>
 </div>
 
+<?php if(empty($series)) : ?>
+	<div class="alert alert-block alert-warning fade in">
+		<h4 class="alert-heading">Attention</h4>
+		<?php if($user_id) : ?>
+			<?php echo $username; ?> ne suit encore aucune séries.
+		<?php else : ?>
+			Vous ne suivez encore aucune séries, cliquez sur ce lien pour <?php echo $this->Html->link('rechercher des séries', array('controller' => 'series', 'action' => 'search')); ?>.
+		<?php endif; ?>
+	</div>
+<?php endif; ?>
+
 <?php foreach ($series as $v):
 	$image = 'series' . DS . 'posters' . DS . $v['id'] . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
