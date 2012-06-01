@@ -1,4 +1,6 @@
+	
 <?php
+
 	$title_for_layout=$serie['title'].' - Saison '.$serie['numseason'];
 	$image = 'series' . DS . 'banners' . DS . $serie_id . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
@@ -15,6 +17,7 @@
 	<h1>
 		<?php
 			
+			echo $this->Html->link('&larr; ',array('controller'=> 'series', 'action'=> 'serie',$serie_id));
 			echo ($user_id != $_SESSION['user']['id']) ? '[' . $this->Html->link($username, array('action' => 'liste', $user_id), array('rel' => 'tooltip', 'data-original-title' => 'Afficher les saisons de ' . $username)) . '] ' : '';
 			echo $serie['title'];
 		?>
@@ -36,12 +39,12 @@
 		<h6><i class="icon-asterisk"></i> Titre original</h6>
 			<p><?php echo $serie['originaltitle']; ?></p>
 		<h6><i class="icon-heart"></i> Note</h6>
-			<p><div class="note jDisabled" id="<?php echo $serie['mark']; ?>"></div></p>
+			<p><div class="note jDisabled" id="<?php echo $season['mark']; ?>"></div></p>
 		<h6><i class="icon-calendar"></i> Année de création</h6>
-			<p><?php echo $serie['yearstart']; ?></p>
+			<p><?php echo $season['yearstart'] ?></p>
 		<h6><i class="icon-calendar"></i> Année d'arrêt</h6>
-		<?php if(!empty($serie['yearend'])) : ?>
-			<p><?php echo $serie['yearend']; ?></p>
+		<?php if(!empty($season['yearend'])) : ?>
+			<p><?php echo $season['yearend']; ?></p>
 		<?php else : ?>
 			<p>Encore en production</p>
 		<?php endif; ?>
@@ -94,7 +97,7 @@
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th class="minWidth"></th>
+									<th></th>
 									<th>#</th>
 									<th>Titre</th>
 									<th>Note</th>
@@ -108,24 +111,43 @@
 								<?php foreach($episodes as $v) :  ?>
 									<tr>
 										<td>
+											<div class="btn-group">
 											<?php
 												if($user_id == $_SESSION['user']['id'])
 												{
 													echo $this->Html->link(
 														'Afficher',
-														array('controller' => 'seasons', 'action' => 'season', $v['id']),
+														array('controller' => 'episodes', 'action' => 'episode', $v['id']),
 														array('class' => 'btn btn-mini')
 													);
+													if ($v['vue'])
+													{
+														echo $this->Html->link(
+															'Non vu',
+															array('controller' => 'episodes', 'action' => 'watched', $v['id'],1),
+															array('class' => 'btn btn-mini')
+														);
+													}
+													else{
+														echo $this->Html->link(
+															'Vu',
+															array('controller' => 'episodes', 'action' => 'watched', $v['id'],0),
+															array('class' => 'btn btn-mini')
+														);
+													}
 												}
 												else
 												{
 													echo $this->Html->link(
 														'Afficher',
-														array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
+														array('controller' => 'episodes', 'action' => 'episode', $v['id'], $user_id),
 														array('class' => 'btn btn-mini')
 													);
 												}
+
+													 
 											?>
+											</div>
 										</td>
 										<td><?php echo $v['num']; ?></td>
 										<td><?php echo $v['title']; ?></td>
