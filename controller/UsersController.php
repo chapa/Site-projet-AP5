@@ -38,7 +38,7 @@
 								$this->User->save(array('id' => $d['id'], 'lastlogin' => 'NOW()'));
 
 								$this->Session->setFlash('Vous êtes mainenant connecté. Dernière connexion le ' . strtolower($this->Date->show($d['lastlogin'], true, true, true)));
-								$this->redirect('/', 200);
+								$this->redirect(array('controller' => 'series', 'action' => 'liste'), 200);
 							}
 							else
 							{
