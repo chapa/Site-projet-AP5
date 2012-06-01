@@ -74,13 +74,15 @@ class SeasonsController extends AppController
 				}
 				if($progression['progression']==100|| $progression['progression']==0)
 				{	
-					
+					$seasonWatched=0;
+					$nbSeason=0;
 					$this->set(array('progression' => $progression['progression']));
 					foreach ($info_episodes as $key => $value) {
-						
+						$seasonWatched+=$progression['progression']/100;
+						$nbSeason++;
 						$info_episodes[$key]['vue']=$progression['progression']/100;
 					}
-					
+					$seasonNotWatched=$nbSeason-$seasonWatched;
 				}
 
 				else//la progression de la serie ne nous permet pas de conaitre la progression des episodes
@@ -102,16 +104,23 @@ class SeasonsController extends AppController
 					$this->set(array('progression' => $progression['progression']));
 					if($progression['progression']==100|| $progression['progression']==0)
 					{
+						$seasonWatched=0;
+						$nbSeason=0;
 						foreach ($info_episodes as $key => $value) {
-							
+							$seasonWatched+=$progression['progression']/100;
+							$nbSeason++;
 							$info_episodes[$key]['vue']=$progression['progression']/100;
 							
 						}
+						$seasonNotWatched=$nbSeason-$seasonWatched;
 						
 					}
 					else//la progression de la saison ne nous permet pas de savoir la progression des episodes
 					{
+						$seasonWatched=0;
+						$nbSeason=0;
 						foreach ($info_episodes as $key => $value) {
+							
 							$d=$this->Season->findFirst(array(
 								'fields' => 'count(*) vue',
 								'tables' => 'episodesWatched',
@@ -119,8 +128,12 @@ class SeasonsController extends AppController
 									'episode_id'=> $value['id'])
 								));
 							$info_episodes[$key]['vue']=$d['vue'];
+							$seasonWatched+=$d['vue'];
+							$nbSeason++;
 							
 						}
+						$seasonNotWatched=$nbSeason-$seasonWatched;
+
 					}
 				}
 
@@ -131,10 +144,14 @@ class SeasonsController extends AppController
 				$this->Session->setFlash('La saison n\'existe pas', 'error');
 				$this->redirect(array('controller' => 'series', 'action' => 'search'), 403);
 			}
+			
 			$this->set(array('episodes' => $info_episodes,
 				'user_id' => $user_id,
 				'serie' => $serie,
-				'serie_id' => $serie_id['serie_id']
+				'serie_id' => $serie_id['serie_id'],
+				'seasonsNotWatched'=> $seasonNotWatched,
+				'seasonsWatched' => $seasonWatched
+
 				));
 			//debug($info_episodes);
 		}

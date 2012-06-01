@@ -1,4 +1,5 @@
 <?php
+	$title_for_layout=$serie['title'].' - '.$saison['num'];
 	$image = 'series' . DS . 'banners' . DS . $serie_id . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
 		$image = 'series' . DS . 'banners' . DS . '0.png';
@@ -88,98 +89,63 @@
 					<?php echo $serie['synopsis']; ?>
 				</div>
 				<div class="tab-pane active" id="episodes">
-					<?php if(3 + 3 > 0) : ?>
-						<?php if(3 > 0) : ?>
-							<h3>Saisons à voir</h3>
-							<table class="table table-bordered table-striped">
-								<thead>
+					<?php if($seasonsNotWatched + $seasonsWatched > 0) : ?>
+						
+						<h3>Saisons à voir</h3>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th class="minWidth"></th>
+									<th>#</th>
+									<th>Titre</th>
+									<th>Note</th>
+									<th >Etat</th>
+
+								
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach($episodes as $v) : if($v['progression'] < 1) : ?>
 									<tr>
-										<th class="minWidth"></th>
-										<th>#</th>
-										<th>Titre</th>
+										<td>
+											<?php
+												if($user_id == $_SESSION['user']['id'])
+												{
+													echo $this->Html->link(
+														'Afficher',
+														array('controller' => 'seasons', 'action' => 'season', $v['id']),
+														array('class' => 'btn btn-mini')
+													);
+												}
+												else
+												{
+													echo $this->Html->link(
+														'Afficher',
+														array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
+														array('class' => 'btn btn-mini')
+													);
+												}
+											?>
+										</td>
+										<td><?php echo $v['num']; ?></td>
+										<td><?php echo $v['title']; ?> épisodes</td>
 										
-										<th class="minWidth">Note</th>
-									
+										<td><div class="note jDisabled" id="<?php echo $v['mark']; ?>"></div></td>
+										<td>
+											<?php if ($v['vue']): ?>
+												<span class="label label-success">vue</span>
+											<?php else: ?>
+												<span class="label">Pas vue</span>
+												
+											<?php endif ?>
+											
+											
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<?php foreach($episodes as $v) : if($v['progression'] < 100) : ?>
-										<tr>
-											<td>
-												<?php
-													if($user_id == $_SESSION['user']['id'])
-													{
-														echo $this->Html->link(
-															'Afficher',
-															array('controller' => 'seasons', 'action' => 'season', $v['id']),
-															array('class' => 'btn btn-mini')
-														);
-													}
-													else
-													{
-														echo $this->Html->link(
-															'Afficher',
-															array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
-															array('class' => 'btn btn-mini')
-														);
-													}
-												?>
-											</td>
-											<td><?php echo $v['num']; ?></td>
-											<td><?php echo $v['title']; ?> épisodes</td>
-											
-											<td><div class="note jDisabled" id="<?php echo $v['mark']; ?>"></div></td>
-											
-										</tr>
-									<?php endif; endforeach; ?>
-								</tbody>
-							</table>
-						<?php endif; ?>
-						<?php if($seasonsWatched > 0) : ?>
-							<h3>Saisons vues</h3>
-							<table class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th class="minWidth">Actions</th>
-										<th>#</th>
-										<th>Titre</th>
-										
-										<th class="minWidth">Note</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php foreach($seasons as $v) : if($v['progression'] == 100) : ?>
-										<tr>
-											<td>
-												<?php
-													if($user_id == $_SESSION['user']['id'])
-													{
-														echo $this->Html->link(
-															'Afficher',
-															array('controller' => 'seasons', 'action' => 'season', $v['id']),
-															array('class' => 'btn btn-mini')
-														);
-													}
-													else
-													{
-														echo $this->Html->link(
-															'Afficher',
-															array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
-															array('class' => 'btn btn-mini')
-														);
-													}
-												?>
-											</td>
-											<td><?php echo $v['num']; ?></td>
-											<td><?php echo $v['title']; ?> </td>
-											
-											<td><div class="note jDisabled" id="<?php echo $v['mark']; ?>"></div></td>
-											
-										</tr>
-									<?php endif; endforeach; ?>
-								</tbody>
-							</table>
-						<?php endif; ?>
+								<?php endif; endforeach; ?>
+							</tbody>
+						</table>
+						
 					<?php else : ?>
 						<div class="alert alert-error centre">
 							Nous sommes désolé mais aucune saison n'a été trouvée dans la base de données de AlloCiné pour cette série
