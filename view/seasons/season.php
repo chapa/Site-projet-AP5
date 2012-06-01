@@ -1,5 +1,5 @@
 <?php
-	$title_for_layout=$serie['title'].' - '.$saison['num'];
+	$title_for_layout=$serie['title'].' - Saison '.$serie['numseason'];
 	$image = 'series' . DS . 'banners' . DS . $serie_id . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
 		$image = 'series' . DS . 'banners' . DS . '0.png';
@@ -105,7 +105,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach($episodes as $v) : if($v['progression'] < 1) : ?>
+
+								<?php foreach($episodes as $v) :  ?>
 									<tr>
 										<td>
 											<?php
@@ -122,27 +123,27 @@
 													echo $this->Html->link(
 														'Afficher',
 														array('controller' => 'seasons', 'action' => 'season', $v['id'], $user_id),
-														array('class' => 'btn btn-mini')
+														array('class' => 'btn btn-min
 													);
 												}
 											?>
 										</td>
 										<td><?php echo $v['num']; ?></td>
-										<td><?php echo $v['title']; ?> épisodes</td>
+										<td><?php echo $v['title']; ?></td>
 										
 										<td><div class="note jDisabled" id="<?php echo $v['mark']; ?>"></div></td>
 										<td>
 											<?php if ($v['vue']): ?>
-												<span class="label label-success">vue</span>
+												<span class="label label-success">Vu</span>
 											<?php else: ?>
-												<span class="label">Pas vue</span>
+												<span class="label">Pas vu</span>
 												
 											<?php endif ?>
 											
 											
 										</td>
 									</tr>
-								<?php endif; endforeach; ?>
+								<?php  endforeach; ?>
 							</tbody>
 						</table>
 						
