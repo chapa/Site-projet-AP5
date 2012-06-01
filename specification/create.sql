@@ -16,6 +16,7 @@ CREATE TABLE Series
 	formatTime				numeric(3),
 	type					varchar(255),
 	nationality 			varchar(255),
+	nbwatched				integer				DEFAULT 0,
 
 	primary key (id)
 );
@@ -28,6 +29,7 @@ CREATE TABLE Seasons
 	yearstart				numeric(4),
 	yearend 				numeric(4),
 	mark					numeric(2,1),
+	nbwatched				integer				DEFAULT 0,
 	serie_id				integer,
 
 	primary key (id),
@@ -42,6 +44,7 @@ CREATE TABLE Episodes
 	originalTitle			varchar(255),
 	synopsis 				text,
 	mark 					numeric(2,1),
+	nbwatched  				integer				DEFAULT 0,
 	season_id				integer,
 
 	primary key (id),
