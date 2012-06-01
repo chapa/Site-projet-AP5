@@ -2,7 +2,7 @@
 
 class EpisodesController extends AppController
 {
-	public function watched($id=0,$value=0)
+	public function watched($id=0,$action=0)
 	{
 		if(!empty($_SESSION['user']))
 		{
@@ -30,7 +30,7 @@ class EpisodesController extends AppController
 				$this->Session->setFlash('Vous ne suivez pas cette saison', 'error');
 				$this->redirect(array('controller' => 'series', 'action' => 'liste'), 404);
 			}
-			if ($action==1)// episode non vu ->  vu
+			if ($action)// episode non vu ->  vu
 			{
 				$this->Episode->table='EpisodesWatched';
 				$this->Episode->save(array(
@@ -38,7 +38,7 @@ class EpisodesController extends AppController
 					'episode_id'=>$id));
 				$this->Session->setFlash('La série a bien été marquée comme vue');
 			}
-			else if($action==0 )
+			else
 			{
 				$this->Episode->table='EpisodesWatched';
 				$this->Episode->delete(array(
@@ -50,7 +50,7 @@ class EpisodesController extends AppController
 			
 
 			
-			$this->redirect(array('action' => 'serie', $id));
+			$this->redirect(array('controller' => 'seasons', 'action' => 'season', $season_id['season_id']));
 		}
 		else
 		{

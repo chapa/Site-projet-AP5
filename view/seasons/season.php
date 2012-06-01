@@ -122,14 +122,14 @@
 													{
 														echo $this->Html->link(
 															'Non vu',
-															array('controller' => 'episodes', 'action' => 'watched', $v['id'],1),
+															array('controller' => 'episodes', 'action' => 'watched', $v['id'],0),
 															array('class' => 'btn btn-mini')
 														);
 													}
 													else{
 														echo $this->Html->link(
 															'Vu',
-															array('controller' => 'episodes', 'action' => 'watched', $v['id'],0),
+															array('controller' => 'episodes', 'action' => 'watched', $v['id'],1),
 															array('class' => 'btn btn-mini')
 														);
 													}
