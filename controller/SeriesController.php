@@ -200,4 +200,36 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 			}
 		}
+
+		public function delete($id)
+		{
+			if(!empty($_SESSION['user']))
+			{
+				$user_id = $_SESSION['user']['id'];
+
+				$d = $this->Serie->findFirst(array(
+					'tables' => 'Watch',
+					'conditions' => array('user_id' => $user_id, 'serie_id' => $id)
+				));
+				if(empty($d))
+				{
+					$this->Session->setFlash('Vous ne suivez pas cette série', 'error');
+					$this->redirect(array('controller' => 'series', 'action' => 'liste'), 404);
+				}
+
+				$this->Serie->table = 'Watch';
+				$this->Serie->delete(array(
+					'user_id' => $user_id,
+					'serie_id' => $id
+				));
+
+				$this->Session->setFlash('La série a bien été supprimée');
+				$this->redirect(array('action' => 'liste'), 200);
+			}
+			else
+			{
+				$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+				$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+			}
+		}
 	}

@@ -234,8 +234,8 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Supprimer',
-				array('controller' => 'series', 'action' => 'delete', $serie['id']),
-				array('class' => 'btn btn-primary')
+				array('controller' => 'series', 'action' => 'delete', $serie['id'], $user_id),
+				array('class' => 'btn btn-danger')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
 		</div>
@@ -255,7 +255,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme non vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], false),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, false),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
@@ -276,7 +276,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], true),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, true),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
