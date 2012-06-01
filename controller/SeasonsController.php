@@ -164,6 +164,87 @@ class SeasonsController extends AppController
 			$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
 			$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
 		}
+
 	}
+	
+	public function watched($id=0,$action=0)
+	{
+		if(!empty($_SESSION['user']))
+		{
+			
+
+			$user_id = $_SESSION['user']['id'];
+
+			
+			
+			$serie_id= $this->Season->findFirst(array(
+				'fields'=> 'serie_id',
+				'tables' => 'seasons',
+				'conditions' => array( 'id' => $id)
+			));
+			$d = $this->Season->findFirst(array(
+				'tables' => 'Watch',
+				'conditions' => array('user_id' => $user_id, 'serie_id' => $serie_id['serie_id'])
+			));
+			if(empty($d))
+			{
+				$this->Session->setFlash('Vous ne suivez pas cette saison', 'error');
+				$this->redirect(array('controller' => 'series', 'action' => 'liste'), 404);
+			}
+			unset($d);
+			$d = $this->Season->find (array(
+				'fields'=> 'id',
+				'tables'=> 'episodes',
+				'conditions'=>array('season_id' => $id)
+					));
+			
+			if ($action)// episode non vu ->  vu
+			{
+
+				foreach ($d as $key => $value) {
+					$this->Season->table='EpisodesWatched';
+					$this->Season->save(array(
+						'user_id'=>$user_id,
+						'episode_id'=>$value['id']));
+					
+				}
+				$this->Session->setFlash('La série a bien été marquée comme vue');
+				
+			}
+			else
+			{
+				
+				foreach ($d as $key => $value) {
+
+					$this->Season->table='EpisodesWatched';
+					$this->Season->delete(array(
+						'user_id'=>$user_id,
+						'episode_id'=>$value['id']));
+					
+					$d=$this->Season->find(array(
+						'user_id'=>$user_id,
+						'episode_id'=>$value['id']));
+					
+					
+				}
+				$this->Session->setFlash('La série a bien été marquée comme non vue');
+				
+
+
+			}
+
+			
+
+			
+			$this->redirect(array('controller' => 'seasons', 'action' => 'season', $id));
+		}
+		else
+		{
+			$this->Session->setFlash('Vous devez être connecté pour pouvoir accéder à cette partie du site', 'error');
+			$this->redirect(array('controller' => 'users', 'action' => 'login'), 403);
+		}
+	}
+
+	
 }
 
