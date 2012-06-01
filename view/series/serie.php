@@ -1,5 +1,4 @@
 <?php
-	$title_for_layout = $serie['title'];
 	$image = 'series' . DS . 'banners' . DS . $serie['id'] . '.jpg';
 	if(!is_file(WEBROOT . DS . 'img' . DS . $image))
 		$image = 'series' . DS . 'banners' . DS . '0.png';
@@ -7,7 +6,7 @@
 <div class="row-fluid">
 	<div class="span3">&nbsp;</div>
 	<div class="span6 offset3">
-		<?php echo $this->Html->image($image, array('class' => 'thumbnail', 'title' => 'Bannière de ' . $serie['title'], 'alt' => 'Bannière de ' . $serie['title'])); ?>
+		<?php echo $this->Html->image($image, array('class' => 'thumbnail')); ?>
 	</div>
 </div>
 
@@ -256,7 +255,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme non vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], 0),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, false),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
@@ -277,7 +276,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer comme vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], 1),
+				array('controller' => 'series', 'action' => 'watched', $serie['id'], $user_id, true),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>

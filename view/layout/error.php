@@ -20,7 +20,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
-						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
+						<?php echo $this->Html->link('Watch your Series', '/', array('class' => 'brand')); ?>
 					</div>
 				</div>
 			</div>

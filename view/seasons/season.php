@@ -162,7 +162,7 @@
 											
 										</td>
 									</tr>
-								<?php  endforeach; ?>
+								<?php endforeach; ?>
 							</tbody>
 						</table>
 						
@@ -199,7 +199,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer la saison comme non vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], false),
+				array('controller' => 'seasons', 'action' => 'watched',  $season['id'], false),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>
@@ -220,7 +220,7 @@
 		<div class="modal-footer">
 			<?php echo $this->Html->link(
 				'Marquer la saison comme vue',
-				array('controller' => 'series', 'action' => 'watched', $serie['id'], true),
+				array('controller' => 'season', 'action' => 'watched', $season['id'], true),
 				array('class' => 'btn btn-primary')
 			); ?>
 			<a class="btn" data-dismiss="modal">Annuler</a>

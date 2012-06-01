@@ -39,7 +39,7 @@ class SeasonsController extends AppController
 				
 				//cherche la progression de la serie (0 ou 100)
 				$serie_id=$this->Season->findFirst(array(
-					'fields' => 'Serie_id,num,yearstart,yearend,mark',
+					'fields' => 'Serie_id,num,yearstart,yearend,mark,id',
 					'tables' => 'Seasons',
 					'conditions' => array('id' => (int)$season_id)
 					));

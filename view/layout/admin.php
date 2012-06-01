@@ -21,7 +21,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
-						<?php echo $this->Html->link('Series', '/', array('class' => 'brand')); ?>
+						<?php echo $this->Html->link('Watch your Series', '/', array('class' => 'brand')); ?>
 						<div class="nav-collapse">
 							<ul class="nav">
 								<li <?php echo ($this->request->controller == 'series' AND $this->request->action == 'liste' AND (isset($this->request->params[0]) AND $this->request->params[0] == $_SESSION['user']['id'] OR !isset($this->request->params[0]))) ? ' class = active' : '' ?>>
