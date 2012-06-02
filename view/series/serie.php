@@ -65,7 +65,7 @@
 				<li>
 					<a href="#acteurs" data-toggle="tab"><i class="icon-star"></i> Acteurs</a>
 				</li>
-				<?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
+				<?php if($user_id == $_SESSION['user']['id']) : ?>
 					<li class="dropdown">
 						<a href="#actions" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> Actions <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -219,7 +219,7 @@
 	</div>
 </div>
 
-<?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
+<?php if($user_id == $_SESSION['user']['id']) : ?>
 	<div class="modal hide fade" id="deleteModal">
 		<div class="modal-header">
 			<a class="close" data-dismiss="modal">&times;</a>

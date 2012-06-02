@@ -69,7 +69,7 @@
 				<li>
 					<a href="#acteurs" data-toggle="tab"><i class="icon-star"></i> Acteurs</a>
 				</li>
-				<?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
+				<?php if($user_id == $_SESSION['user']['id']) : ?>
 					
 					<?php if($progression == 100): ?>
 						<li><a data-toggle="modal" href="#notWatched"><i class="icon-remove"></i> Marquer la saison comme non vue</a></li>
@@ -181,7 +181,7 @@
 	</div>
 </div>
 
-<?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
+<?php if($user_id == $_SESSION['user']['id']) : ?>
 	<div class="modal hide fade" id="notWatched">
 		<div class="modal-header">
 			<a class="close" data-dismiss="modal">&times;</a>
