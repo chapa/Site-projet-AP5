@@ -70,17 +70,14 @@
 					<a href="#acteurs" data-toggle="tab"><i class="icon-star"></i> Acteurs</a>
 				</li>
 				<?php if($user_id == $_SESSION['user']['id'] OR $_SESSION['user']['status'] == 'Administrateur') : ?>
-					<li class="dropdown">
-						<a href="#actions" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> Actions <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<?php if($serie['progression'] == 100): ?>
-								<li><a data-toggle="modal" href="#notWatched"><i class="icon-remove"></i> Marquer la saison comme non vue</a></li>
-							<?php else: ?>
-								<li><a data-toggle="modal" href="#watched"><i class="icon-ok"></i> Marquer la saison comme vue</a></li>
-							<?php endif ?>
-							
-						</ul>
-					</li>
+					
+					<?php if($progression == 100): ?>
+						<li><a data-toggle="modal" href="#notWatched"><i class="icon-remove"></i> Marquer la saison comme non vue</a></li>
+					<?php else: ?>
+						<li><a data-toggle="modal" href="#watched"><i class="icon-ok"></i> Marquer la saison comme vue</a></li>
+					<?php endif ?>
+				
+						
 				<?php endif; ?>
 			</ul>
 			
@@ -91,7 +88,7 @@
 				<div class="tab-pane active" id="episodes">
 					<?php if($seasonsNotWatched + $seasonsWatched > 0) : ?>
 						
-						<h3>Saisons à voir</h3>
+						<h3>Episodes à voir</h3>
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
